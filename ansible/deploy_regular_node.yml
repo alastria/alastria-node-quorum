@@ -1,40 +1,98 @@
 ---
 
 - hosts: all
-  remote_user: ubuntu
+  remote_user: '{{ remote_user }}'
+  environment:
+    PATH: /usr/local/go/bin:{{ ansible_env.PATH }}
 
   tasks:
-    - name: Install docker
-      become: yes
-      apt:
-        name: docker.io
-        state: present
-
-    - name: 'add users to docker group'
+    - name: Add the deploy user
       become: yes
       user:
         name: '{{ deploy_user }}'
-        groups: 'docker'
-        append: 'yes'
+        state: present
+    
+    - name: Install dependencies
+      become: yes
+      package:
+        name:
+          - git
+          - curl
+          - dnsutils
+          - net-tools
+          - logrotate
+          - software-properties-common
+          - unzip
+          - wget
+          - make
+          - gcc
+          - libsodium-dev
+          - build-essential
+          - libdb-dev
+          - zlib1g-dev
+          - libtinfo-dev
+          - sysvbanner
+          - psmisc
+          - libleveldb-dev
+          - libsodium-dev
+          - libdb5.3-dev
+          - dnsutils
+        state: latest
 
-    - name: Clone and update the repo
-      git:
-        repo: '{{ project_repo }}'
-        dest: '{{ project_path }}'
-        version: '{{ project_repo_version }}'
-        force: yes
-        accept_hostkey: yes
+    - name: Install Golang compiler
+      become: yes
+      unarchive:
+        src: https://storage.googleapis.com/golang/'{{ golang_version }}'
+        dest: /usr/local/
+        remote_src: yes
 
-    - name: Execute init.sh to create the regular node
-      shell: ./init.sh
-      args:
-        chdir: '{{ project_path }}/docker/general'
-      environment:
-        COMPANY_NAME: '{{ company_name }}'
-        CPU: '{{ cpu_number }}'
-        RAM: '{{ ram_number }}'
-        SEQ: '{{ sequential }}'
-        ENABLE_CONSTELLATION: '{{ enable_constellation }}'
-        MONITOR_ENABLED: '{{ enable_monitor }}'
-        NO_LAUNCH_CONFIRM: '{{ no_launch_confirm }}'
-        EXTRA_DOCKER_ARGUMENTS: '{{ extra_docker_arguments }}'
+    - name: Install Quorum
+      become: yes
+      block:
+        - name: Clone Quorum repository
+          git:
+            repo: https://github.com/ConsenSys/quorum.git
+            dest: /tmp/quorum
+            version: '{{ quorum_version }}'
+        - name: Execute make command
+          shell: make -C /tmp/quorum all
+        - name: Copy geth to right location
+          copy:
+            src: /tmp/quorum/build/bin/geth
+            dest: /usr/local/bin/geth
+        - name: Copy bootnode to right location
+          copy:
+            src: /tmp/quorum/build/bin/bootnode
+            dest: /usr/local/bin/bootnode
+
+    - name: Check that the INITIALIZED file exists
+        stat:
+          path: ~/data/INITIALIZED
+        register: INITIALIZED
+
+    - name: Initialize the node if necessary
+      become: yes
+      become_user: '{{ deploy_user }}'
+      when: not INITIALIZED.stat.exists
+      block:
+        - name: Create the data directory if it does not exist yet
+          file:
+            path: ~/data
+            state: directory
+
+        - name: Create the nodekey
+          shell: /usr/local/bin/bootnode -genkey ~/data/nodekey
+
+        - name: Get the enode key
+          shell: /usr/local/bin/bootnode -nodekey ~/data/nodekey -writeaddress > ~/data/ENODE_ADDRESS
+
+        - name: Download genesis.json
+          get_url:
+            url: '{{ genesis_json_url }}'
+            dest: ~/genesis.json
+
+        - name: Execute geth command
+          shell: /usr/local/bin/geth --datadir ~/data init ~/genesis.json
+        
+        - name: Mark the node as initialized
+          shell: /bin/echo "INITIALIZED" > ~/data/INITIALIZED

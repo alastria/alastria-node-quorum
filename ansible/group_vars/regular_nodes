@@ -2,7 +2,11 @@
 
 # You can change all these variables to your needs
 
-deploy_user: ubuntu  # SSH user connecting to the server
+remote_user: ubuntu  # SSH user connecting to the server
+deploy_user: ubuntu  # User who run the service
+
+# Variables for deploy_regular_node_docker
+
 project_path: /home/{{ deploy_user }}/alastria-node
 project_repo: https://github.com/alastria-node/alastria-node
 project_repo_version: testnet2
@@ -15,3 +19,9 @@ enable_constellation: <SETME>
 enable_monitor: <SETME>
 no_launch_confirm: <SETME>
 extra_docker_arguments: <SETME>
+
+# Variables for deploy_regular_node
+
+genesis_json_url: https://raw.githubusercontent.com/alastria/alastria-node/testnet2/data/genesis.json
+golang_version: go1.9.5.linux-amd64.tar.gz
+quorum_version: v2.2.3

@@ -37,7 +37,7 @@ Once you have the variables set, you can...
 Execute the command from your local machine:
 
 ```bash
-ansible-playbook -i host deploy_regular_node.yml -vv
+ansible-playbook -i host deploy_regular_node_docker.yml -vv
 ```
 
 This will install Docker and run the docker container inside with the variables you set when you run the
