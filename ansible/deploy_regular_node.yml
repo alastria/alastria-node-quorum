@@ -96,3 +96,17 @@
         
         - name: Mark the node as initialized
           shell: /bin/echo "INITIALIZED" > ~/data/INITIALIZED
+
+    - name: 'Get nodes and start geth node'
+      become: yes
+      become_user: '{{ deploy_user }}'
+      block:
+        - name: Create temporary file
+          tempfile:
+            path: /tmp/updatePerm.XXXXXX
+          register: TMPFILE
+        - name: Create the data directory if it does not exist yet
+          shell: |
+            for i in boot-nodes.json validator-nodes.json regular-nodes.json ; do
+              wget -q -O ~/env/${i} https://raw.githubusercontent.com/alastria/alastria-node/${NODE_BRANCH}/data/${i}
+            done
