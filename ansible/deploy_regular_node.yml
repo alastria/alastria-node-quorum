@@ -1,7 +1,7 @@
 ---
 
 - hosts: all
-  remote_user: {{ remote_user|quote }}
+  remote_user: "{{ remote_user|quote }}"
   environment:
     PATH: /usr/local/go/bin:{{ ansible_env.PATH|quote }}
 
@@ -9,7 +9,7 @@
     - name: Add the deploy user
       become: yes
       user:
-        name: {{ deploy_user|quote }}
+        name: "{{ deploy_user|quote }}"
         state: present
     
     - name: Install dependencies
@@ -53,7 +53,7 @@
           git:
             repo: https://github.com/ConsenSys/quorum.git
             dest: /tmp/quorum
-            version: {{ quorum_version|quote }}
+            version: "{{ quorum_version|quote }}"
         - name: Execute make command
           shell: make -C /tmp/quorum all
         - name: Copy geth to right location
@@ -66,13 +66,13 @@
             dest: /usr/local/bin/bootnode
 
     - name: Check that the INITIALIZED file exists
-        stat:
-          path: ~/data/INITIALIZED
-        register: INITIALIZED
+      stat:
+        path: ~/data/INITIALIZED
+      register: INITIALIZED
 
     - name: Initialize the node if necessary
       become: yes
-      become_user: {{ deploy_user|quote }}
+      become_user: "{{ deploy_user|quote }}"
       when: not INITIALIZED.stat.exists
       block:
         - name: Create the data directory if it does not exist yet
@@ -88,7 +88,7 @@
 
         - name: Download genesis.json
           get_url:
-            url: {{ genesis_json_url|quote }}
+            url: "{{ genesis_json_url|quote }}"
             dest: ~/genesis.json
 
         - name: Execute geth command
@@ -99,7 +99,7 @@
 
     - name: 'Get nodes and start geth node'
       become: yes
-      become_user: {{ deploy_user|quote }}
+      become_user: "{{ deploy_user|quote }}"
       block:
         - name: Create temporary file
           tempfile:
