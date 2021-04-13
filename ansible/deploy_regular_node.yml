@@ -16,6 +16,7 @@
       become: yes
       package:
         name:
+          - sudo
           - git
           - curl
           - dnsutils
@@ -61,11 +62,13 @@
             remote_src: yes
             src: /tmp/quorum/build/bin/geth
             dest: /usr/local/bin/geth
+            mode: a+x
         - name: Copy bootnode to right location
           copy:
             remote_src: yes
             src: /tmp/quorum/build/bin/bootnode
             dest: /usr/local/bin/bootnode
+            mode: a+x
 
     - name: Check that the INITIALIZED file exists
       stat:
@@ -105,7 +108,7 @@
       block:
         - name: Create temporary file
           tempfile:
-            path: /tmp/updatePerm.XXXXXX
+            path: /tmp
           register: TMPFILE
         - name: Get current nodes and parse databases
           shell: |
@@ -140,4 +143,4 @@
             source ~/env/geth.node.{{ node_type|quote }}.sh
 
             export PRIVATE_CONFIG="ignore"
-            exec /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
+            exec /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS} &
