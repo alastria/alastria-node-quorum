@@ -26,4 +26,4 @@ genesis_json_url: https://raw.githubusercontent.com/alastria/alastria-node/testn
 golang_version: go1.9.5.linux-amd64.tar.gz
 quorum_version: v2.2.3
 node_branch: main
-node_type=general
+node_type: general
