@@ -55,7 +55,7 @@
             repo: https://github.com/ConsenSys/quorum.git
             dest: /tmp/quorum
             version: "{{ quorum_version|quote }}"
-        - name: Execute make command
+        - name: Compile geth
           shell: make -C /tmp/quorum all
         - name: Copy geth to right location
           copy:
@@ -96,13 +96,13 @@
             url: "{{ genesis_json_url|quote }}"
             dest: ~/genesis.json
 
-        - name: Execute geth command
+        - name: Execute geth init command
           shell: /usr/local/bin/geth --datadir ~/data init ~/genesis.json
         
         - name: Mark the node as initialized
           shell: /bin/echo "INITIALIZED" > ~/data/INITIALIZED
 
-    - name: 'Get nodes and start geth node'
+    - name: Get nodes and start geth node
       become: yes
       become_user: "{{ deploy_user|quote }}"
       block:
@@ -110,6 +110,11 @@
           tempfile:
             path: /tmp
           register: TMPFILE
+        - name: Create env directory
+          file:
+            path: ~/env
+            state: directory
+            mode: 0755
         - name: Get current nodes and parse databases
           shell: |
             for i in boot-nodes.json validator-nodes.json regular-nodes.json ; do
@@ -137,10 +142,15 @@
 
             cat {{ TMPFILE.path|quote }} > ~/data/static-nodes.json
             cat {{ TMPFILE.path|quote }} > ~/data/permissioned-nodes.json
+        - name: Get initialization scripts
+          shell: |
+            for i in geth.common.sh geth.node.{{ node_type|quote }}.sh ; do
+              wget -q -O ~/env/${i} https://raw.githubusercontent.com/alejandroalffer/alastria-node-t/master/alastria-node-data/env/${i}
+            done
         - name: Prepare geth and launch node
           shell: |
             source ~/env/geth.common.sh
             source ~/env/geth.node.{{ node_type|quote }}.sh
 
             export PRIVATE_CONFIG="ignore"
-            exec /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS} &
+            nohup /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS} &
