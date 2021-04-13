@@ -58,10 +58,12 @@
           shell: make -C /tmp/quorum all
         - name: Copy geth to right location
           copy:
+            remote_src: yes
             src: /tmp/quorum/build/bin/geth
             dest: /usr/local/bin/geth
         - name: Copy bootnode to right location
           copy:
+            remote_src: yes
             src: /tmp/quorum/build/bin/bootnode
             dest: /usr/local/bin/bootnode
 
