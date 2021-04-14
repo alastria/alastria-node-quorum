@@ -38,6 +38,7 @@
           - libsodium-dev
           - libdb5.3-dev
           - dnsutils
+          - screen
         state: latest
 
     - name: Install Golang compiler
@@ -142,17 +143,23 @@
 
             cat {{ TMPFILE.path|quote }} > ~/data/static-nodes.json
             cat {{ TMPFILE.path|quote }} > ~/data/permissioned-nodes.json
+          args:
+            executable: /bin/bash
         - name: Get initialization scripts
           shell: |
             for i in geth.common.sh geth.node.{{ node_type|quote }}.sh ; do
               wget -q -O ~/env/${i} https://raw.githubusercontent.com/alejandroalffer/alastria-node-t/master/alastria-node-data/env/${i}
             done
+          args:
+            executable: /bin/bash
         - name: Prepare geth and launch node
           shell: |
             source ~/env/geth.common.sh
             source ~/env/geth.node.{{ node_type|quote }}.sh
 
-            nohup /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS} &
+            screen -d -m -L -Logfile ~/geth.log /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
+          args:
+            executable: /bin/bash
           environment:
             PRIVATE_CONFIG: ignore
             NODE_NAME: "REG_{{ company_name|quote }}_T_{{ cpu_number|quote }}_{{ ram_number|quote }}_{{ sequential|quote }}"
