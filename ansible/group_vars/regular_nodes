@@ -10,21 +10,20 @@ company_name: <SETME>
 cpu_number: <SETME>
 ram_number: <SETME>
 sequential: <SETME>
+project_repo_branch: testnet2
 
-# Variables for deploy_regular_node_docker
+# Variables for only deploy_regular_node_docker
 
 project_path: /home/{{ deploy_user }}/alastria-node
 project_repo: https://github.com/alastria/alastria-node
-project_repo_version: main
 
 enable_constellation: <SETME>
 enable_monitor: <SETME>
 no_launch_confirm: <SETME>
 extra_docker_arguments: <SETME>
 
-# Variables for deploy_regular_node
+# Variables for only deploy_regular_node
 
 golang_version: go1.9.5.linux-amd64.tar.gz
 quorum_version: v2.2.3
-node_branch: main
 node_type: general

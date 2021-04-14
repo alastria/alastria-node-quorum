@@ -94,11 +94,13 @@
 
         - name: Download genesis.json
           get_url:
-            url: "https://raw.githubusercontent.com/alastria/alastria-node/{{ node_branch|quote }}/data/genesis.json"
+            url: "https://raw.githubusercontent.com/alastria/alastria-node/{{ project_repo_branch|quote }}/data/genesis.json"
             dest: ~/genesis.json
 
         - name: Execute geth init command
-          shell: /usr/local/bin/geth --datadir ~/data init ~/genesis.json
+          shell: |
+            pkill geth
+            /usr/local/bin/geth --datadir ~/data init ~/genesis.json
         
         - name: Mark the node as initialized
           shell: /bin/echo "INITIALIZED" > ~/data/INITIALIZED
@@ -119,7 +121,7 @@
         - name: Get current nodes and parse databases
           shell: |
             for i in boot-nodes.json validator-nodes.json regular-nodes.json ; do
-              wget -q -O ~/env/${i} https://raw.githubusercontent.com/alastria/alastria-node/{{ node_branch|quote }}/data/${i}
+              wget -q -O ~/env/${i} https://raw.githubusercontent.com/alastria/alastria-node/{{ project_repo_branch|quote }}/data/${i}
             done
 
             case {{ node_type|quote }} in
@@ -157,7 +159,6 @@
             source ~/env/geth.common.sh
             source ~/env/geth.node.{{ node_type|quote }}.sh
             
-            pkill geth
             screen -d -m -L -Logfile ~/geth.log /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
           args:
             executable: /bin/bash
