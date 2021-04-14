@@ -156,7 +156,8 @@
           shell: |
             source ~/env/geth.common.sh
             source ~/env/geth.node.{{ node_type|quote }}.sh
-
+            
+            pkill geth
             screen -d -m -L -Logfile ~/geth.log /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
           args:
             executable: /bin/bash
