@@ -35,9 +35,7 @@
           - sysvbanner
           - psmisc
           - libleveldb-dev
-          - libsodium-dev
           - libdb5.3-dev
-          - dnsutils
           - screen
         state: latest
 
