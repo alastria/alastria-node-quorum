@@ -93,7 +93,7 @@
 
         - name: Download genesis.json
           get_url:
-            url: "{{ genesis_json_url|quote }}"
+            url: "https://raw.githubusercontent.com/alastria/alastria-node/{{ node_branch|quote }}/data/genesis.json"
             dest: ~/genesis.json
 
         - name: Execute geth init command
@@ -152,5 +152,7 @@
             source ~/env/geth.common.sh
             source ~/env/geth.node.{{ node_type|quote }}.sh
 
-            export PRIVATE_CONFIG="ignore"
             nohup /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS} &
+          environment:
+            PRIVATE_CONFIG: ignore
+            NODE_NAME: "REG_{{ company_name|quote }}_T_{{ cpu_number|quote }}_{{ ram_number|quote }}_{{ sequential|quote }}"
