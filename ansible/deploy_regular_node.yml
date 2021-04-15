@@ -37,6 +37,7 @@
           - libleveldb-dev
           - libdb5.3-dev
           - screen
+          - logrotate
         state: latest
 
     - name: Install Golang compiler
@@ -163,3 +164,19 @@
           environment:
             PRIVATE_CONFIG: ignore
             NODE_NAME: "REG_{{ company_name|quote }}_T_{{ cpu_number|quote }}_{{ ram_number|quote }}_{{ sequential|quote }}"
+    - name: Add geth logs to logrotate
+      become: yes
+      blockinfile:
+        path: /etc/logrotate.d/geth
+        block: |
+          /home/{{ deploy_user }}/geth.log {
+            weekly
+            rotate 3
+            size 10M
+            compress
+            missingok
+            notifempty
+            delaycompress
+            create 0640 {{ deploy_user }} {{ deploy_user }}
+          }
+        create: true
