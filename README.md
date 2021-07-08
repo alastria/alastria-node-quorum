@@ -289,7 +289,7 @@ NODE_ARGS="--maxpeers 200"
 
 The validator nodes should not be used in any case to operate directly with it to interact with the network, so nor `JSON-RPC` nor `WebSockets` ports are not allowed.
 
-* `istanbul.getValidators` () retrieves the list of validators that make up the validation round.
+* `istanbul.getValidators()` retrieves the list of validators that make up the validation round.
 
 * `istanbul.propose ("0x ...", true)` votes for the validator represented by the coinbase to be integrated into the validation round. It must be accepted by at least half of the nodes.
 
