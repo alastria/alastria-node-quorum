@@ -282,7 +282,7 @@ Boot nodes are responsible for permitting the nodes in the network. They are vis
 ## geth args for boot nodes
 
 ```console
-NODE_ARGS="--maxpeers 200"
+NODE_ARGS="--maxpeers 256"
 ```
 
 # Validator Nodes
@@ -355,3 +355,45 @@ The following lines are changes from [testnet2](https://github.com/alastria/alas
 * Use of `nginx` as proxy it's no longer supported. However, the repository https://github.com/alastria/alastria-access-point it's still available.
 * Tool `monitor` is deprecated, and no longer used.
 * The Alastria fork of `quorum`, https://github.com/alastria/quorum it's not used anymore.
+
+
+# FAQs
+
+##
+* __Q:__ How conncent Truffle with AlastriaB network?
+* __A:__ Lastest versions of `GoQuorum` use HDWallet for accesing the node. This is an example:
+
+```
+const fs = require("fs");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const keythereum = require('keythereum');
+
+/**
+ * Use https://iancoleman.io/bip39/ for generate a .secret file
+ */
+const mnemonic = fs.readFileSync(".secret").toString().trim();
+const localNode = "http://your-node:22000"
+
+module.exports = {
+  networks: {
+    'alastriaT': {
+      gasPrice: 0x0,
+      provider: () => {
+        return new HDWalletProvider(mnemonic, localNode);
+      },
+      network_id: "83584648538",
+    },
+  },
+  compilers: {
+    solc: {
+      version: "0.5.17",
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 100
+        },
+        evmVersion: "byzantium"
+      }
+    }
+  }
+}
