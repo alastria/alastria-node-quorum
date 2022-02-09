@@ -21,6 +21,7 @@ Alastria-T Network is a [GoQuorum](https://github.com/ConsenSys/quorum) public-p
 ## Monitoring
 
 RedT dashboard is at https://alastria-netstats2.planisys.net:8443/login , user alastria, pass alastria
+
 In order for your Node to be listed here please run geth with following options:
 
 * --metrics --pprof --pprof.addr=0.0.0.0
