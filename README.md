@@ -11,6 +11,18 @@ Based on the work of:
 
 Alastria-T Network is a [GoQuorum](https://github.com/ConsenSys/quorum) public-permissioned network that uses the [IBFT 1.0](https://docs.goquorum.consensys.net/en/stable/Concepts/Consensus/IBFT/) consensus algorithm, and it's managed by [Alastria](https://alastria.io/en/) partners.
 
+---
+
+## Monitoring
+
+RedT dashboard is at https://alastria-netstats2.planisys.net:8443/login , user alastria, pass alastria
+In order for your Node to be listed here please run geth with following options:
+
+* --metrics --pprof --pprof.addr=0.0.0.0
+
+and open port 6060 to IP address 185.180.8.152
+
+
 [GoQuorum](https://github.com/ConsenSys/quorum) it's a fork of [Geth](https://geth.ethereum.org/) (the Official Go implementation of the Ethereum protocol) ownership by [Consensys](https://consensys.net/) that implements [Raft](https://docs.goquorum.consensys.net/en/stable/Concepts/Consensus/Raft/) and [IBFT](https://docs.goquorum.consensys.net/en/stable/Concepts/Consensus/IBFT/) consensus algorithm, and is licensed under the
 [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 # Configuration & Installation: Quick Guide for [docker-compose](https://docs.docker.com/compose/)
