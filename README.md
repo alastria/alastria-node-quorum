@@ -242,7 +242,7 @@ We strongly advise not to filter outgoing ports. If necessary, these are the des
 | Port | Type | Definition |
 |--- |--- |--- |
 | 80 | TCP | Outbound for WebSockets feed to [Netstats Server](http://netstats.telsius.alastria.io/) |
-| 8086 | TCP | Outbound for InfluxDB statistics collection |
+| 6060 | TCP | Inbound for **Prometheus** scraping from IP address 185.180.8.152 |
 
 ## Mandatory parameters
 
