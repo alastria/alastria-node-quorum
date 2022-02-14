@@ -6,7 +6,7 @@
 # VER="v2.6.0"
 # VER="v2.7.0"
 # VER="v20.10.0"
-VER="v21.1.0"
+VER="v21.10.0"
 
 #
 # Download GETH
