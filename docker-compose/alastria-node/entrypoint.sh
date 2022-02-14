@@ -21,11 +21,6 @@ if [ "$1" = 'start' ]; then
  
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Generating nodekey and ENODE_ADDRESS"
 
-        # Get the enode key and write it in a local file for later starts of the docker
-        /usr/local/bin/geth --exec "admin.nodeInfo.enode" attach /root/alastria/data/geth.ipc
-
-        echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] ... ENODE_ADDRESS generated."
-
         # Download the genesis block from the Alastria node repository
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Generating genesis.json and initialize structure..."
         
@@ -90,6 +85,11 @@ if [ "$1" = 'start' ]; then
 
     # Start geth
     exec /usr/local/bin/geth --datadir /root/alastria/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
+
+    # Get the enode key and write it in a local file for later starts of the docker
+    /usr/local/bin/geth --exec "admin.nodeInfo.enode" attach /root/alastria/data/geth.ipc
+
+    echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] ... ENODE_ADDRESS generated."
 
 fi
 

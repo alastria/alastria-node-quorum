@@ -11,7 +11,7 @@ SYNCMODE="fast"
 # Cache size in MB
 CACHE="4196"
 # Blockchain garbage collection mode
-GCMODE="fast"
+GCMODE="full"
 # Target gas limit sets the artificial target gas floor for the blocks to mine
 TARGETGASLIMIT="8000000"
 # General logging verbosity: 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail
