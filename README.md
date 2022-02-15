@@ -264,7 +264,7 @@ These variables should be use for any script in:
 * `NODE_NAME=REG_ExampleOrg_T_2_8_00`: Name for your node.
 * `NODE_BRANCH=main`: Used for future improvements.
 
-## Istanbul Governance IBTF
+## Istanbul Governance IBFT
 
 As the T-network uses the Istanbul BFT consensus protocol, the way to generate new blocks in the test-net is to have validator nodes available in the network and integrate them into the set of nodes that are part of the validation round.
 
