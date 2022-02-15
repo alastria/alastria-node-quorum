@@ -37,8 +37,5 @@ GLOBAL_ARGS="--networkid $NETID \
 --gcmode $GCMODE \
 --vmodule $VMODULE "
 
-# Influx && geth > 1.9
-INFLUX_METRICS=" --metrics --metrics.expensive  --pprof --pprofaddr 0.0.0.0 --pprofport 9545 --metrics.influxdb --metrics.influxdb.endpoint http://geth-metrics.planisys.net:8086 --metrics.influxdb.database alastria --metrics.influxdb.username alastriausr --metrics.influxdb.password ala0str1AX1 --metrics.influxdb.tags host=${NODE_NAME}"
-
 # Any additional arguments
 LOCAL_ARGS=""
