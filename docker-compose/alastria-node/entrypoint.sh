@@ -20,26 +20,18 @@ if [ "$1" = 'start' ]; then
     if [ ! -e /root/alastria/data/INITIALIZED ]; then
  
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Generating nodekey and ENODE_ADDRESS"
-        
-        # Create the nodekey in the /root/alastria/data/geth directory
-        /usr/local/bin/bootnode -genkey /root/alastria/data/nodekey
-
-        # Get the enode key and write it in a local file for later starts of the docker
-        /usr/local/bin/bootnode -nodekey /root/alastria/data/nodekey -writeaddress > /root/alastria/data/ENODE_ADDRESS
-
-        echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] ... ENODE_ADDRESS generated."
 
         # Download the genesis block from the Alastria node repository
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Generating genesis.json and initialize structure..."
         
-        wget -q -O /root/genesis.json https://raw.githubusercontent.com/alastria/alastria-node/testnet2/data/genesis.json
+        wget -q -O /root/genesis.json https://raw.githubusercontent.com/alastria/alastria-node-quorum-directory/main/genesis.json
         
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] ... Storage initialized"
         
         # Initialize the Blockchain structure
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Initialize the Blockchain with the genesis block"
         
-        geth --datadir /root/alastria/data init /root/genesis.json
+        /usr/local/bin/geth --datadir /root/alastria/data init /root/genesis.json
         
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] ... Blockchain initialized"
         
@@ -55,7 +47,7 @@ if [ "$1" = 'start' ]; then
     echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Getting current nodes:"
 
     for i in boot-nodes.json validator-nodes.json regular-nodes.json ; do
-        wget -q -O /root/alastria/env/${i} https://raw.githubusercontent.com/alastria/alastria-node/${NODE_BRANCH}/data/${i}
+        wget -q -O /root/alastria/env/${i} https://raw.githubusercontent.com/alastria/alastria-node-quorum-directory/${NODE_BRANCH}/data/${i}
         echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] Getting ${i} nodes..."
     done
 
@@ -92,7 +84,11 @@ if [ "$1" = 'start' ]; then
     export PRIVATE_CONFIG="ignore"
 
     # Start geth
-    exec /usr/local/bin/geth --datadir /root/alastria/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
+    exec /usr/local/bin/geth --datadir /root/alastria/data ${GLOBAL_ARGS} ${METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
+
+    /usr/local/bin/geth --exec "admin.nodeInfo.enode" attach /root/alastria/data/geth.ipc
+
+    echo "INFO [00-00|00:00:00.000|entrypoint.sh:${LINENO}] ... ENODE_ADDRESS generated."
 
 fi
 

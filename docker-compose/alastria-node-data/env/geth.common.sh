@@ -7,7 +7,7 @@ P2P_PORT="21000"
 ISTANBUL_REQUESTTIMEOUT="10000"
 
 # Blockchain sync mode
-SYNCMODE="full"
+SYNCMODE="fast"
 # Cache size in MB
 CACHE="4196"
 # Blockchain garbage collection mode
@@ -36,15 +36,6 @@ GLOBAL_ARGS="--networkid $NETID \
 --syncmode $SYNCMODE \
 --gcmode $GCMODE \
 --vmodule $VMODULE "
-
-# The Ethstats server where to send the info
-NETSTATS_METRICS=" --ethstats $NODE_NAME:bb98a0b6442386d0cdf8a31b267892c1@netstats.telsius.alastria.io:80"
-
-# Influx
-INFLUX_METRICS=" --metrics --metrics.influxdb --metrics.influxdb.endpoint http://geth-metrics.planisys.net:8086 --metrics.influxdb.database alastria --metrics.influxdb.username alastriausr --metrics.influxdb.password ala0str1AX1 --metrics.influxdb.host.tag=${NODE_NAME}"
-
-# Influx && geth > 1.9
-# INFLUX_METRICS=" --metrics --metrics.expensive  --pprof --pprofaddr 0.0.0.0 --pprofport 9545 --metrics.influxdb --metrics.influxdb.endpoint http://geth-metrics.planisys.net:8086 --metrics.influxdb.database alastria --metrics.influxdb.username alastriausr --metrics.influxdb.password ala0str1AX1 --metrics.influxdb.tags host=${NODE_NAME}"
 
 # Any additional arguments
 LOCAL_ARGS=""
