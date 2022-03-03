@@ -147,6 +147,11 @@ $ geth attach http://localhost:22000 (in case geth were started with --rpc optio
 $ geth attach /root/alastria/data/geth.ipc
 ```
 
+```
+$ curl -X POST --header 'Content-Type: application/json' --data '{"jsonrpc":"2.0","method":"admin_nodeInfo","params":[], "id":1}' http://127.0.0.1:22
+000
+```
+
 The commands can be invoked from the Docker client, or by accessing the container: 
 
 ```console
@@ -177,7 +182,13 @@ Repeat passphrase:
 > eth.syncing
 > eth.mining
 > eth.coinbase
+> web3.version.network
+> net.peerCount
+> admin.datadir
+> txpool.status
 ```
+
+Full documentacion can be found in https://geth.ethereum.org/docs/interface/javascript-console
 
 An easy way to test that your node is operating normally is to generate a fund transfer transaction from the node's account, itself from 0 weis.
 
