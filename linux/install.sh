@@ -17,7 +17,7 @@ tar zxvf geth_${VER}_linux_amd64.tar.gz -C /usr/local/bin
 # Create database for geth
 rm -rf /home/alastria/data-${VER}
 mkdir -p /home/alastria/data-${VER}
-wget -O /root/genesis.json https://raw.githubusercontent.com/alastria/alastria-node/testnet2/data/genesis.json
+wget -O /root/genesis.json https://raw.githubusercontent.com/alastria/alastria-node-quorum-directory/main/genesis.json
 geth --datadir /home/alastria/data-${VER} init /root/genesis.json
 
 #
