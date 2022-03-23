@@ -1,6 +1,6 @@
 # Alastria Node for Alastria-T Network
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/alastria/alastria-node/blob/testnet2/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack)](https://alastria.slack.com/)
 
 Based on the work of:
@@ -109,7 +109,7 @@ $ curl https://ifconfig.me/
 
 * With that value, create a pull request to request permission, adding the line to the node list. You can access to this Alastria form, https://portal.r2docuo.com/alastria/forms/noderequest, to perform administrative permission.
 
-The corresponding repository is alastria-node and the branch will be testnet2.
+The corresponding repository is **alastria-node-quorum-directory** and the branch will be **main**.
 
 The files to be modified will be:
 
