@@ -35,7 +35,8 @@ GLOBAL_ARGS="--networkid $NETID \
 --targetgaslimit $TARGETGASLIMIT \
 --syncmode $SYNCMODE \
 --gcmode $GCMODE \
---vmodule $VMODULE "
+--vmodule $VMODULE \
+--nousb "
 
 # Any additional arguments
 LOCAL_ARGS=""

@@ -13,7 +13,7 @@ RUN apt-get -y install \
 
 RUN apt-get install -y golang
 
-ENV VER="v21.10.2"
+ENV VER="v21.1.0"
 
 WORKDIR /root
 RUN wget -O geth_${VER}_linux_amd64.tar.gz https://artifacts.consensys.net/public/go-quorum/raw/versions/${VER}/geth_${VER}_linux_amd64.tar.gz
