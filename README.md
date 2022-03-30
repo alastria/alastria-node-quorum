@@ -255,9 +255,6 @@ Some parameters are high hardcored in this installer, but can be change:
 
 * Working directory: The install procedure expect use of `/root/alastria/data` as the main directory.
 * `GoQuorum` and `Go` versions: Changing the `alastria-node/Dockerfile` it's easy to change the build version.
-
-> NOTE: Using 20.10/21.01 version of `GoQuorum` it's still experimental, as described in [UPGRADE_TO_LAST_VERSION](https://github.com/alastria/alastria-node/blob/testnet2/UPGRADE_TO_LAST_VERSION.md) but should be available soon.
-
 * Data directory: Because of the size that the DLT database can reach, a Docker volume has been deployed to set the storage on some independent path from the one set by the Docker installation. This parameter is set in `docker-compose.yml`, in _volumes_ tag.
 * Geth parameters: Other geth options can be personalized in `geth.node.bootnode.sh`, `geth.node.general.sh` or `geth.node.validator.sh`.
 
