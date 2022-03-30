@@ -73,7 +73,7 @@ $ docker-compose logs -f --tail=20
 
 You should see the node initializing and starting to try to contact peers. However, the node is not yet permissioned, so it can not participate in the blockchain network yet.
 
-All nodes that will be installed in the Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://portal.r2docuo.com/alastria/forms/noderequest) and make a PR for the files that are modified in the installation process. If an associated will want to remove a node from the network, it is kindly appreciated that a a request must be notified through a PR. Other guides related with operation of Alastria Node are available in following documents:
+All nodes that will be installed in the Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://portal.r2docuo.com/alastria/forms/noderequest) and create an issue to ask for modification of the files that stablish the permissioned nodes in the installation process. If an associated will want to remove a node from the network, it is kindly appreciated that a request must be notified through an issue. Other guides related with operation of Alastria Node are available in following documents:
 
 * [Alastria-T Network Operation and Government Policies (en_GB)](https://alastria.io/wp-content/uploads/2020/04/POLI-TICAS-GOBIERNO-Y-OPERACIO-N-RED-ALASTRIA-V1.01-DEF-en-GB.pdf)
 * [Alastria-T Network Operation and Government Policies (es_ES)](https://alastria.io/wp-content/uploads/2020/04/POLI-TICAS-GOBIERNO-Y-OPERACIO-N-RED-ALASTRIA-V1.01-DEF.pdf)
@@ -107,16 +107,9 @@ $ curl https://ifconfig.me/
  >+ **YOUR_ENODE** is the value of the ENODE_ADDRESS file
  >+ **YOUR_IP** is the external IP of your node
 
-* With that value, create a pull request to request permission, adding the line to the node list. You can access to this Alastria form, https://portal.r2docuo.com/alastria/forms/noderequest, to perform administrative permission.
+* Create an issue in the **alastria-node-quorum-directory** repository and provice that information, along with the node's name and node's hosting information (Hosting provider, number of CPU cores, memory and reserved hard disk space).
 
-The corresponding repository is **alastria-node-quorum-directory** and the branch will be **main**.
-
-The files to be modified will be:
-
->+ `DIRECTORY_REGULAR.md`: you should include your `node name`, and the `enode` and `IP` direction.
->+ `data/regular-nodes.json`: you should include the `enode` and IP `direction` and `port` for p2p communications (21000).
-
-* When the pull request is accepted, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
+* Once your request is fulfilled, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
 
 Now it's time to start knowing more about `GoQuorum`:
 * https://geth.ethereum.org/docs/interface/command-line-options
