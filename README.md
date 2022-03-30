@@ -330,6 +330,8 @@ $ geth attach alastria/data/geth.ipc
 NODE_ARGS=" --maxpeers 32 --mine --minerthreads $(grep -c "processor" /proc/cpuinfo)"
 ```
 
+# Upgrading to higher GoQuorum versions
+
 # Other Resources
 
 + [Wiki](https://github.com/alastria/alastria-node/wiki)
