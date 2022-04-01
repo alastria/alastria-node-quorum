@@ -68,6 +68,8 @@ $ docker-compose up -d
 $ docker-compose logs -f --tail=20
 ```
   * **You're done!** :sunglasses: :dancer: :v: :beers:
+
+### :bulb: For more specific information about to using or updating to higher versions of GoQuorum, please, refer to [this section](#upgrading-to-higher-goquorum-versions).
   
 # Performing permissioned
 
