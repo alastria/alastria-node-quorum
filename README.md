@@ -334,6 +334,23 @@ NODE_ARGS=" --maxpeers 32 --mine --minerthreads $(grep -c "processor" /proc/cpui
 
 # Upgrading to higher GoQuorum versions
 
+If your node is fully synced with the chain, you can skip step 1. To see if your node is still syncing or not, you can use the following RPC call:
+```sh
+$ curl -X POST -H "Content-type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://127.0.0.1:22000
+```
+If the response contains a `"result":false`, your node is already synced and you can go ahead to step 2.
+
+### Step 1: Syncing the node
+For GoQuorum versions strictly higher than v21.1.0 the node won't sync with the chain. To get your node syncing you must downgrade your node's version to v21.1.0, or less. Also, you must set the syncing option to fast: `--syncmode fast`.
+
+Once your node is fully synced, you can got to step 2.
+
+### Step 2: Upgrading GoQuorum version
+
+To upgrade your node's GoQuorum version you must update the GoQuorum binaries with which you are running your node and restart it.
+
+With this, your node should be running fine and on the desired GoQuorum version.
+
 # Other Resources
 
 + [Wiki](https://github.com/alastria/alastria-node/wiki)
