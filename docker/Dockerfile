@@ -13,7 +13,7 @@ ENV TARGETGASLIMIT="8000000"
 ENV VERBOSITY="3"
 ENV VMMODULE="consensus/istanbul/core/core.go=5"
 ENV LOCAL_ARGS=""
-ENV EXTERNAL_IP="1.2.3.4"
+ENV EXTERNAL_IP="127.0.0.1"
 ENV LOCAL_INTERFACE="0.0.0.0"
 # default args for a general node
 ENV NODE_ARGS="--http --http.api admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --http.port 22000"
