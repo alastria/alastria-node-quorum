@@ -68,12 +68,14 @@ $ docker-compose up -d
 $ docker-compose logs -f --tail=20
 ```
   * **You're done!** :sunglasses: :dancer: :v: :beers:
+
+### :bulb: For more specific information about to using or updating to higher versions of GoQuorum, please, refer to [this section](#upgrading-to-higher-goquorum-versions).
   
 # Performing permissioned
 
 You should see the node initializing and starting to try to contact peers. However, the node is not yet permissioned, so it can not participate in the blockchain network yet.
 
-All nodes that will be installed in the Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://portal.r2docuo.com/alastria/forms/noderequest) and make a PR for the files that are modified in the installation process. If an associated will want to remove a node from the network, it is kindly appreciated that a a request must be notified through a PR. Other guides related with operation of Alastria Node are available in following documents:
+All nodes that will be installed in the Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://portal.r2docuo.com/alastria/forms/noderequest) and create an issue to ask for modification of the files that stablish the permissioned nodes in the installation process. If an associated will want to remove a node from the network, it is kindly appreciated that a request must be notified through an issue. Other guides related with operation of Alastria Node are available in following documents:
 
 * [Alastria-T Network Operation and Government Policies (en_GB)](https://alastria.io/wp-content/uploads/2020/04/POLI-TICAS-GOBIERNO-Y-OPERACIO-N-RED-ALASTRIA-V1.01-DEF-en-GB.pdf)
 * [Alastria-T Network Operation and Government Policies (es_ES)](https://alastria.io/wp-content/uploads/2020/04/POLI-TICAS-GOBIERNO-Y-OPERACIO-N-RED-ALASTRIA-V1.01-DEF.pdf)
@@ -107,16 +109,9 @@ $ curl https://ifconfig.me/
  >+ **YOUR_ENODE** is the value of the ENODE_ADDRESS file
  >+ **YOUR_IP** is the external IP of your node
 
-* With that value, create a pull request to request permission, adding the line to the node list. You can access to this Alastria form, https://portal.r2docuo.com/alastria/forms/noderequest, to perform administrative permission.
+* Create an issue in the **alastria-node-quorum-directory** repository and provice that information, along with the node's name and node's hosting information (Hosting provider, number of CPU cores, memory and reserved hard disk space).
 
-The corresponding repository is **alastria-node-quorum-directory** and the branch will be **main**.
-
-The files to be modified will be:
-
->+ `DIRECTORY_REGULAR.md`: you should include your `node name`, and the `enode` and `IP` direction.
->+ `data/regular-nodes.json`: you should include the `enode` and IP `direction` and `port` for p2p communications (21000).
-
-* When the pull request is accepted, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
+* Once your request is fulfilled, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
 
 Now it's time to start knowing more about `GoQuorum`:
 * https://geth.ethereum.org/docs/interface/command-line-options
@@ -262,9 +257,6 @@ Some parameters are high hardcored in this installer, but can be change:
 
 * Working directory: The install procedure expect use of `/root/alastria/data` as the main directory.
 * `GoQuorum` and `Go` versions: Changing the `alastria-node/Dockerfile` it's easy to change the build version.
-
-> NOTE: Using 20.10/21.01 version of `GoQuorum` it's still experimental, as described in [UPGRADE_TO_LAST_VERSION](https://github.com/alastria/alastria-node/blob/testnet2/UPGRADE_TO_LAST_VERSION.md) but should be available soon.
-
 * Data directory: Because of the size that the DLT database can reach, a Docker volume has been deployed to set the storage on some independent path from the one set by the Docker installation. This parameter is set in `docker-compose.yml`, in _volumes_ tag.
 * Geth parameters: Other geth options can be personalized in `geth.node.bootnode.sh`, `geth.node.general.sh` or `geth.node.validator.sh`.
 
@@ -339,6 +331,25 @@ $ geth attach alastria/data/geth.ipc
 ```console
 NODE_ARGS=" --maxpeers 32 --mine --minerthreads $(grep -c "processor" /proc/cpuinfo)"
 ```
+
+# Upgrading to higher GoQuorum versions
+
+If your node is fully synced with the chain, you can skip step 1. To see if your node is still syncing or not, you can use the following RPC call:
+```sh
+$ curl -X POST -H "Content-type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://127.0.0.1:22000
+```
+If the response contains a `"result":false`, your node is already synced and you can go ahead to step 2.
+
+### Step 1: Syncing the node
+For GoQuorum versions strictly higher than v21.1.0 the node won't sync with the chain. To get your node syncing you must downgrade your node's version to v21.1.0, or less. Also, you must set the syncing option to fast: `--syncmode fast`.
+
+Once your node is fully synced, you can got to step 2.
+
+### Step 2: Upgrading GoQuorum version
+
+To upgrade your node's GoQuorum version you must update the GoQuorum binaries with which you are running your node and restart it.
+
+With this, your node should be running fine and on the desired GoQuorum version.
 
 # Other Resources
 
