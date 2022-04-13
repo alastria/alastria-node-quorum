@@ -351,6 +351,32 @@ To upgrade your node's GoQuorum version you must update the GoQuorum binaries wi
 
 With this, your node should be running fine and on the desired GoQuorum version.
 
+# Adding automatic checking for updates in node lists
+
+If your installation was done with docker-compose everything is set up and there's nothing else to do :tada:
+
+For installations done with older methods ([alastria-node](https://github.com/alastria/alastria-node) repository), please, follow the next steps.
+
+* First of all update your updatePerm.sh script:
+```console
+$ wget -q -O ~/alastria-node/scripts/updatePerm.sh https://raw.githubusercontent.com/alastria/alastria-node-quorum/main/scripts/updatePerm.sh
+```
+
+* Download the script that will restart the node if there are changes in the lists of nodes:
+```console
+$ wget -q -O ~/alastria-node/scripts/checkForUpdates.sh https://raw.githubusercontent.com/alastria/alastria-node-quorum/main/scripts/checkForUpdates.sh
+```
+
+* For last, schedule the execution of this script with crontab:
+```console
+$ crontab -l > ~/crontab.file
+$ echo "`date +"%M"` * * * * ~/alastria-node/scripts/checkForUpdates.sh" >> ~/crontab.file
+$ crontab ~/crontab.file
+```
+Ensure that cron daemon is running.
+
+With this your machine will check every hour if there are any changes in the nodes of the network, and if so, it will restart the node to make it aware of the changes and update its connections accordingly.
+
 # Other Resources
 
 + [Wiki](https://github.com/alastria/alastria-node/wiki)
