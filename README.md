@@ -353,7 +353,14 @@ With this, your node should be running fine and on the desired GoQuorum version.
 
 # Adding automatic checking for updates in node lists
 
-If your installation was done with docker-compose everything is set up and there's nothing else to do :tada:
+If your installation was done with docker-compose everything is set up in the container and there's nothing else to do :tada:
+
+However, if your installation was done prior to April 2022, ensure you have the more up-to-date code running in your machine following these steps:
+
+* Stop the node with `docker-compose down`
+* Pull the more current code from the repository with `git pull`
+* Edit the `docker-compose.yml` file if you need a custom configuration in `volumes` and `ports` sections
+* Start the container forcing the image to be build again with `docker-compose up --build -d`
 
 For installations done with older methods ([alastria-node](https://github.com/alastria/alastria-node) repository), please, follow the next steps.
 
