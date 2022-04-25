@@ -86,9 +86,8 @@ $ curl https://ifconfig.me/
  >+ **YOUR_ENODE** is the value of the ENODE_ADDRESS file
  >+ **YOUR_IP** is the external IP of your node
 
-* Create an issue in the **alastria-node-quorum-directory** repository and provice that information, along with the node's name and node's hosting information (Hosting provider, number of CPU cores, memory and reserved hard disk space).
 
-* Once your request is fulfilled, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
+* Once your request is fulfilled after form submission, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
 
 Now it's time to start knowing more about `GoQuorum`:
 * https://geth.ethereum.org/docs/interface/command-line-options
