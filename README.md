@@ -245,14 +245,14 @@ true
 ```
 
 If the transaction appears in Alastria-T [Network explorer](https://blkexplorer1.telsius.alastria.io/blocks), the node it's working correctly.
-## Backup
+### Backup
 
 The following items should be backed up:
 
 >+ `/root/alastria/data/geth/nodekey`: This file contains the cryptographic information for joying the network. This file can be restored to start over a new installation without restarting the permissioning process.
 >+ ` /root/alastria/data/keystore/`: This directory contains local accounts created from the node.
 
-## Resetting DLT
+### Resetting DLT
 
 ```console:
 $ cp /root/alastria/data/geth/nodekey <enode-backup>
@@ -262,7 +262,7 @@ $ cp <enode-backup> /root/alastria/data/geth/nodekey
 $ (restart-container)
 ```
 
-## Istanbul Governance IBFT
+### Istanbul Governance IBFT
 
 As the T-network uses the Istanbul BFT consensus protocol, the way to generate new blocks in the test-net is to have validator nodes available in the network and integrate them into the set of nodes that are part of the validation round.
 
@@ -270,7 +270,7 @@ Each round is initiated by a different node that "proposes" a set of transaction
 
 The validator nodes must focus on operating the consensus protocol, integrating the transactions in the blockchain and distributing them to the rest of the nodes. 
 
-## geth args for regular/general Nodes
+### geth args for regular/general Nodes
 
 ```console
 NODE_ARGS=" --rpc --rpcaddr 127.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
@@ -283,7 +283,7 @@ NODE_ARGS=" --ws --wsaddr 127.0.0.0 --wsport 22001 --wsorigins source.com"
 
 > NOTE: use of [GraphQL](https://docs.goquorum.consensys.net/en/stable/HowTo/Use/graphql/) will be available soon.
 
-## Application Ports
+### Application Ports
 To use your node through web3 applications, some connection method must be enabled. In this case, the following connection methods are offered:
 
 * JSON-RPC connection: you should upgrade the following files, in order to allow `Web3.JS` or `EtherJS` connections; `docker-compose.yml` allow new connection from `tcp/22000`, or the one defined in `alastria-node-data/env/geth.common.sh` related to `JSON-RPC` connections.
@@ -294,7 +294,7 @@ To use your node through web3 applications, some connection method must be enabl
 
 Boot nodes are responsible for permitting the nodes in the network. They are visible to all types of nodes. The boot node should not be used in any case to operate directly with it to interact with the network, so only `IPC` ports are allowed.
 
-## geth args for boot nodes
+### geth args for boot nodes
 
 ```console
 NODE_ARGS="--maxpeers 256"
