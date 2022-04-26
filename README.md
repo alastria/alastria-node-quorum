@@ -71,7 +71,9 @@ You should see the node initializing and starting to try to contact peers. Howev
 All nodes in  Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://forms.gle/7CxGn2gE4GwRRLBt7), providing these information of your node: 
 
 **1. ENODE:** String from ENODE_ADDRESS file (enode://YOUR_ENODE@YOUR_IP:21000?discport=0)
+
 **2. Public IP:** The external IP of your node.
+
 **3. System details:** Number of cores (vCPUs), RAM Memory & Hard disk size.
 
 
