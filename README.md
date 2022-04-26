@@ -18,7 +18,9 @@ In Alastria-T Network there are 3 types of nodes.
 
 
 There are 2 main steps to set up an Alatria Node:
-**1. Docker installation:** Follow the Docker installation steps and your node will be ready.
+
+**1. Installation & configuration:** Follow the Docker installation steps and your node will be ready.
+
 **2. Getting permissioned:** In order to use Alastria Network, your node must be previously accepted. 
 
 ---
