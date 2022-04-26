@@ -111,7 +111,9 @@ Now it's time to start knowing more about `GoQuorum`:
 * https://github.com/ConsenSys/quorum 
 
 
-## System requirements
+# Infraestructure details
+
+### System requirements
 
 | Hardware  | Minimum | Desired |
 |---        |---      |--- |
@@ -121,7 +123,7 @@ Now it's time to start knowing more about `GoQuorum`:
 
 DLT database grows 1Gb/week: keep in mind for future updates. SSD disc it's also mandatory.
 
-## System ports (INPUT)
+### System ports (INPUT)
 
 The following ports must be open, at least, to the nodes defined in the `/root/alastria/data/static-nodes.json` and `/root/alastria/data/permissioned-nodes.json` files. We recommend that these ports be universally open: the `whisper protocol` defined in `GoQuorum` is robust enough to be published without the need for control through the firewall.
 
@@ -139,7 +141,8 @@ Other ports are optional, and can be used from applications like `Metamask`, `Tr
 |---    |---   |--- |
 | 22000 | TCP  | *Optional* port for JSON-RPC connections |
 | 22001 | TCP  | *Optional* port for WebSockets connections |
-## System ports (OUTPUT)
+
+### System ports (OUTPUT)
 
 We strongly advise not to filter outgoing ports. If necessary, these are the destinations
 
@@ -148,7 +151,7 @@ We strongly advise not to filter outgoing ports. If necessary, these are the des
 | 80   | TCP  | Outbound for WebSockets feed to [Netstats Server](http://netstats.telsius.alastria.io/) (in case you're running core node)|
 | 6060 | TCP  | Outbound for **Prometheus** scraping from IP address 185.180.8.152 (in case you're running regular node) |
 
-## Mandatory parameters
+### Mandatory parameters
 
 Some parameters are high hardcoded in this installer, but can be change:
 
@@ -157,7 +160,7 @@ Some parameters are high hardcoded in this installer, but can be change:
 * Data directory: Because of the size that the DLT database can reach, a Docker volume has been deployed to set the storage on some independent path from the one set by the Docker installation. This parameter is set in `docker-compose.yml`, in _volumes_ tag.
 * Geth parameters: Other geth options can be personalized in `geth.node.bootnode.sh`, `geth.node.general.sh` or `geth.node.validator.sh`.
 
-## Environment Variables
+### Environment Variables
 
 These variables should be use for any script in:
 
