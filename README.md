@@ -28,7 +28,7 @@ If a member wants to remove a node from the network, please send us a **removal 
 ---
 
 
-# 1) Installation: 
+# 1) Installation
 
 The following process explain the installation for a Regular (also called _general_) nodes:
 
