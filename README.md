@@ -19,14 +19,16 @@ In Alastria-T Network there are 3 types of nodes.
 
 There are 2 main steps to set up an Alatria Node:
 
-**1. Installation & configuration:** Follow the Docker installation steps and your node will be ready.
+**1. Installation & configuration:** Follow the Docker installation steps and your node will be ready to be permissioned.
 
-**2. Getting permissioned:** In order to use Alastria Network, your node must be previously accepted. 
+**2. Getting permissioned:** In order to use Alastria Network, your node must be previously accepted, after filling the form. 
+
+If a member wants to remove a node from the network, please send us a **removal request** using the same [electronic form](https://forms.gle/UCnATiaJ4LPdGjP97).
 
 ---
 
 
-# 1) Installation & configuration: 
+# 1) Installation: 
 
 The following process explain the installation for a Regular (also called _general_) nodes:
 
@@ -64,7 +66,7 @@ $ docker-compose logs -f --tail=20
 ### :bulb: For more specific information about to using or updating to higher versions of GoQuorum, please, refer to [this section](#upgrading-to-higher-goquorum-versions).
 
   
-# 2) Getting permissioned
+# 2) Permissioning new node
 
 You should see the node initializing and starting to try to contact peers. However, the node is not yet permissioned, so it can not participate in the blockchain network yet.
 
@@ -451,7 +453,7 @@ In order for your Node to be listed here please run geth with following options:
 and open port 6060 to IP address 185.180.8.152
 
 
-## Official documents 
+## Operation documents of Alastria nodes 
 Other guides related with operation of Alastria Node are available in following documents:
 
 * [Alastria-T Network Operation and Government Policies (en_GB)](https://alastria.io/wp-content/uploads/2020/04/POLI-TICAS-GOBIERNO-Y-OPERACIO-N-RED-ALASTRIA-V1.01-DEF-en-GB.pdf)
