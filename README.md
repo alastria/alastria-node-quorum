@@ -355,34 +355,12 @@ With this, your node should be running fine and on the desired GoQuorum version.
 
 If your installation was done with docker-compose everything is set up in the container and there's nothing else to do :tada:
 
-However, if your installation was done prior to April 2022, ensure you have the more up-to-date code running in your machine following these steps:
+However, if your installation was done prior to June 2022, ensure you have the more up-to-date code running in your machine following these steps:
 
 * Stop the node with `docker-compose down`
 * Pull the more current code from the repository with `git pull`
 * Edit the `docker-compose.yml` file if you need a custom configuration in `volumes` and `ports` sections
 * Start the container forcing the image to be build again with `docker-compose up --build -d`
-
-For installations done with older methods ([alastria-node](https://github.com/alastria/alastria-node) repository), please, follow the next steps.
-
-* First of all update your updatePerm.sh script:
-```console
-$ wget -q -O ~/alastria-node/scripts/updatePerm.sh https://raw.githubusercontent.com/alastria/alastria-node-quorum/main/scripts/updatePerm.sh
-```
-
-* Download the script that will restart the node if there are changes in the lists of nodes:
-```console
-$ wget -q -O ~/alastria-node/scripts/checkForUpdates.sh https://raw.githubusercontent.com/alastria/alastria-node-quorum/main/scripts/checkForUpdates.sh
-```
-
-* For last, schedule the execution of this script with crontab:
-```console
-$ crontab -l > ~/crontab.file
-$ echo "`date +"%M"` * * * * ~/alastria-node/scripts/checkForUpdates.sh" >> ~/crontab.file
-$ crontab ~/crontab.file
-```
-Ensure that cron daemon is running.
-
-With this your machine will check every hour if there are any changes in the nodes of the network, and if so, it will restart the node to make it aware of the changes and update its connections accordingly.
 
 # Other Resources
 
