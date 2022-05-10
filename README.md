@@ -358,8 +358,9 @@ If your installation was done with docker-compose everything is set up in the co
 However, if your installation was done prior to June 2022, ensure you have the more up-to-date code running in your machine following these steps:
 
 * Stop the node with `docker-compose down`
+* Do a backup of the `docker-compose.yml` and the `.env` files to make sure you don't lose any configuration
 * Pull the more current code from the repository with `git pull`
-* Edit the `docker-compose.yml` file if you need a custom configuration in `volumes` and `ports` sections
+* Edit the `docker-compose.yml` and the `.env` files if you need a custom configuration in `volumes` and `ports` sections, and to set the type and the name of your node
 * Start the container forcing the image to be build again with `docker-compose up --build -d`
 
 # Other Resources
