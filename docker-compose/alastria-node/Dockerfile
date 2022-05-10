@@ -7,7 +7,8 @@ RUN apt-get update
 RUN apt-get -y install \
         wget \
         nano \
-        vim \       
+        vim \ 
+        cron \      
     && apt-get autoremove \
     && apt-get clean
 
@@ -19,8 +20,8 @@ WORKDIR /root
 RUN wget -O geth_${VER}_linux_amd64.tar.gz https://artifacts.consensys.net/public/go-quorum/raw/versions/${VER}/geth_${VER}_linux_amd64.tar.gz
 RUN tar zxvf geth_${VER}_linux_amd64.tar.gz -C /usr/local/bin
 
-COPY entrypoint.sh /usr/local/bin/
-RUN ["chmod", "+x", "/usr/local/bin/entrypoint.sh"]
+COPY entrypoint.sh checkForUpdates.sh /usr/local/bin/
+RUN ["chmod", "+x", "/usr/local/bin/entrypoint.sh", "/usr/local/bin/checkForUpdates.sh"]
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 CMD ["start"]

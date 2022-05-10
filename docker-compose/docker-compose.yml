@@ -4,6 +4,7 @@ version: "3.7"
 services:
   alastria-node:
     build: ./alastria-node
+    restart: unless-stopped
     container_name: ${NODE_NAME}
     volumes:
       - "./alastria-node-data:/root/alastria"

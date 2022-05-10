@@ -75,6 +75,11 @@ if [ "$1" = 'start' ]; then
 
     cat $TMPFILE > /root/alastria/data/static-nodes.json
     cat $TMPFILE > /root/alastria/data/permissioned-nodes.json
+    rm -f $TMPFILE
+    
+    # Set the cron task to update peers every hour (if there are any changes)
+    echo "`date +"%M"` * * * * NODE_TYPE=${NODE_TYPE} NODE_BRANCH=${NODE_BRANCH} /usr/local/bin/checkForUpdates.sh" > /tmp/crontab.file
+    crontab /tmp/crontab.file && cron
 
     # Set the environment variables for the geth arguments from a file
     source /root/alastria/env/geth.common.sh
