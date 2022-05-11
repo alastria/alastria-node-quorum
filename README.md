@@ -70,20 +70,18 @@ $ docker-compose logs -f --tail=20
 
 You should see the node initializing and starting to try to contact peers. However, the node is not yet permissioned, so it can not participate in the blockchain network yet.
 
-All nodes in  Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://forms.gle/7CxGn2gE4GwRRLBt7), providing these information of your node: 
+All nodes in  Alastria Networks must be permissioned. To ask for permission you must enter your data in this [electronic form](https://forms.gle/BiRqqgg2V7zbxF3c7), providing these information of your node: 
 
-**1. ENODE:** String from ENODE_ADDRESS file (enode://YOUR_ENODE@YOUR_IP:21000?discport=0)
+**1. ENODE:** String ENODE from ENODE_ADDRESS (enode://ENODE@IP:21000?discport=0)
 
 **2. Public IP:** The external IP of your node.
 
-**3. System details:** Number of cores (vCPUs), RAM Memory & Hard disk size.
+**3. System details:** Hosting provider, number of cores (vCPUs), RAM Memory and Hard disk size.
 
 
-If an associated want to remove a node from the network, it is kindly appreciated that a request must be notified through an issue. 
+In order to get permissioning, follow these steps to get the information that you will be asked for in the previous form:
 
-In order to get permissioning, follow these steps (you will be asked for this information in the previous form):
-
-* Display the contents of the ENODE_ADDRESS file (the actual contents of your file will be different than in the example):
+* Display the contents the ENODE_ADDRESS (put the name of the docker container of the node in place of the container name in the example):
 
 ```console
 $ docker exec -it REG_ExampleOrg_T_2_8_00 geth --exec "admin.nodeInfo.enode" attach /root/alastria/data/geth.ipc
@@ -94,16 +92,6 @@ $ docker exec -it REG_ExampleOrg_T_2_8_00 geth --exec "admin.nodeInfo.enode" att
 ```console
 $ curl https://ifconfig.me/
 ```
-
-* Create the full enode address like:
-
- `enode://YOUR_ENODE@YOUR_IP:21000?discport=0`
-
- where
-
- >+ **YOUR_ENODE** is the value of the ENODE_ADDRESS file
- >+ **YOUR_IP** is the external IP of your node
-
 
 * Once your request is fulfilled after form submission, you will see that your node starts connecting to its peers and starts synchronizing the blockchain. The process of synchronization can take hours or even one or two days depending on the speed of your network and machine.
 
