@@ -268,12 +268,12 @@ The validator nodes must focus on operating the consensus protocol, integrating 
 ### geth args for regular/general Nodes
 
 ```console
-NODE_ARGS=" --rpc --rpcaddr 127.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
+NODE_ARGS=" --rpc --rpcaddr 127.0.0.1 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
 ```
 
 Also WebSockets connection is allowed:
 ```console
-NODE_ARGS=" --ws --wsaddr 127.0.0.0 --wsport 22001 --wsorigins source.com"
+NODE_ARGS=" --ws --wsaddr 127.0.0.1 --wsport 22001 --wsorigins source.com"
 ```
 
 > NOTE: use of [GraphQL](https://docs.goquorum.consensys.net/en/stable/HowTo/Use/graphql/) will be available soon.
