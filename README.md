@@ -27,7 +27,6 @@ If a member wants to remove a node from the network, please send us a **removal 
 
 ---
 
-
 # 1) Installation
 
 The following process explain the installation for a Regular (also called _general_) nodes:
@@ -99,6 +98,46 @@ Now it's time to start knowing more about `GoQuorum`:
 * https://geth.ethereum.org/docs/interface/command-line-options
 * https://docs.goquorum.consensys.net/en/stable/
 * https://github.com/ConsenSys/quorum 
+
+# Upgrading to GoQuorum version 21.10.0
+
+If your node is fully synced with the chain, you can skip step 1. To see if your node is still syncing or not, you can use the following RPC call:
+```sh
+$ curl -X POST -H "Content-type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://127.0.0.1:22000
+```
+If the response contains a `"result":false`, your node is already synced and you can go ahead to step 2.
+
+### Step 1: Syncing the node
+For GoQuorum versions strictly higher than v21.1.0 the node won't sync with the chain. To get your node syncing you must downgrade your node's version to v21.1.0, or less. Also, you must set the syncing option to fast: `--syncmode fast`.
+
+Once your node is fully synced, you can got to step 2.
+
+### Step 2: Upgrading GoQuorum version
+
+To upgrade your node's GoQuorum version you must update the GoQuorum binaries with which you are running your node and restart it.
+
+To do so, edit the `Dockerfile` file to change `ENV VER="v21.1.0"` to `ENV VER="v21.10.0"`. Then stop the node with
+```console
+$ docker-compose down
+```
+and start the container forcing the docker image to be built again with
+```console
+$ docker-compose up --build -d
+```
+
+With this, your node should be running fine and on GoQuorum version 21.10.0.
+
+# Adding automatic checking for updates in node lists
+
+If your installation was done with docker-compose everything is set up in the container and there's nothing else to do :tada:
+
+However, if your installation was done prior to June 2022, ensure you have the more up-to-date code running in your machine following these steps:
+
+* Stop the node with `docker-compose down`
+* Do a backup of the `docker-compose.yml` and the `.env` files to make sure you don't lose any configuration
+* Pull the more current code from the repository with `git pull`
+* Edit the `docker-compose.yml` and the `.env` files if you need a custom configuration in `volumes` and `ports` sections, and to set the type and the name of your node
+* Start the container forcing the image to be build again with `docker-compose up --build -d`
 
 
 # Infraestructure details
@@ -268,12 +307,12 @@ The validator nodes must focus on operating the consensus protocol, integrating 
 ### geth args for regular/general Nodes
 
 ```console
-NODE_ARGS=" --rpc --rpcaddr 127.0.0.1 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
+NODE_ARGS=" --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
 ```
 
 Also WebSockets connection is allowed:
 ```console
-NODE_ARGS=" --ws --wsaddr 127.0.0.1 --wsport 22001 --wsorigins source.com"
+NODE_ARGS=" --ws --wsaddr 0.0.0.0 --wsport 22001 --wsorigins source.com"
 ```
 
 > NOTE: use of [GraphQL](https://docs.goquorum.consensys.net/en/stable/HowTo/Use/graphql/) will be available soon.
@@ -320,37 +359,6 @@ $ geth attach alastria/data/geth.ipc
 ```console
 NODE_ARGS=" --maxpeers 32 --mine --minerthreads $(grep -c "processor" /proc/cpuinfo)"
 ```
-
-# Upgrading to higher GoQuorum versions
-
-If your node is fully synced with the chain, you can skip step 1. To see if your node is still syncing or not, you can use the following RPC call:
-```sh
-$ curl -X POST -H "Content-type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://127.0.0.1:22000
-```
-If the response contains a `"result":false`, your node is already synced and you can go ahead to step 2.
-
-### Step 1: Syncing the node
-For GoQuorum versions strictly higher than v21.1.0 the node won't sync with the chain. To get your node syncing you must downgrade your node's version to v21.1.0, or less. Also, you must set the syncing option to fast: `--syncmode fast`.
-
-Once your node is fully synced, you can got to step 2.
-
-### Step 2: Upgrading GoQuorum version
-
-To upgrade your node's GoQuorum version you must update the GoQuorum binaries with which you are running your node and restart it.
-
-With this, your node should be running fine and on the desired GoQuorum version.
-
-# Adding automatic checking for updates in node lists
-
-If your installation was done with docker-compose everything is set up in the container and there's nothing else to do :tada:
-
-However, if your installation was done prior to June 2022, ensure you have the more up-to-date code running in your machine following these steps:
-
-* Stop the node with `docker-compose down`
-* Do a backup of the `docker-compose.yml` and the `.env` files to make sure you don't lose any configuration
-* Pull the more current code from the repository with `git pull`
-* Edit the `docker-compose.yml` and the `.env` files if you need a custom configuration in `volumes` and `ports` sections, and to set the type and the name of your node
-* Start the container forcing the image to be build again with `docker-compose up --build -d`
 
 # Other Resources
 
