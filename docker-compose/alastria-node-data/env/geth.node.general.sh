@@ -1,7 +1,7 @@
 # general ARGS for general/regular node
 
-# Example - Enable RCP connections
-NODE_ARGS=" --rpc --rpcaddr 127.0.0.1 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
+# Example - Enable RPC connections
+NODE_ARGS=" --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
 
 # The Grafana server for pulling metrics. tcp/6060 should be opened
 # METRICS=" --metrics --pprof --pprof.addr=0.0.0.0"
