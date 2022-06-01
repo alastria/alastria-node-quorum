@@ -311,8 +311,13 @@ The validator nodes should not be used in any case to operate directly with it t
 $ geth attach alastria/data/geth.ipc
 > istanbul.getValidators() 
 [...]
+> istanbul.getSnapshot()
+[...]
+> istanbul.getSignersFromBlock()
+[...]
 > istanbul.propose("_coinbase_of_node_validator_", true) #add validator node
 > istanbul.propose("_coinbase_of_node_validator_", false) #remove validator node
+> 
 ```
 
 ## geth args for validator nodes
