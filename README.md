@@ -307,7 +307,7 @@ The validator nodes must focus on operating the consensus protocol, integrating 
 ### geth args for regular/general Nodes
 
 ```console
-NODE_ARGS=" --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --rpcport 22000"
+NODE_ARGS=' --rpc --rpcaddr 0.0.0.0 --rpcport 22000 --rpccorsdomain "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul'
 ```
 
 Also WebSockets connection is allowed:
