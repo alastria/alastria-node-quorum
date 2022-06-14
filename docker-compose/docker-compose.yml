@@ -11,6 +11,7 @@ services:
     ports:
       - "21000:21000/tcp"
       - "21000:21000/udp"
+      - "6060:6060/tcp"
 # Enable connection for dApps. Only for Regular/General
 #
 # To be used from RCP/JSON:
