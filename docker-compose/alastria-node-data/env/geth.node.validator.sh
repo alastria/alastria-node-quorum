@@ -1,9 +1,5 @@
 # validator ARGS for validator node
-NODE_ARGS=" --maxpeers 32 --mine --minerthreads $(grep -c "processor" /proc/cpuinfo)"
+NODE_ARGS=" --maxpeers 32 --mine --miner.gastarget 8000000 --miner.gaslimit 10000000 --minerthreads $(grep -c "processor" /proc/cpuinfo) --miner.extradata $NODE_NAME"
 
-# The Ethstats server where to send the info
-METRICS=" --ethstats $NODE_NAME:1bdf9149555dbb77ec68aadce67897cf@netstats.core-redt.alastria.io"
-
-# The Grafana server for pulling metrics. tcp/6060 should be opened
-# Uncomment the following line only in GoQuorum versions >= v21.10.0
-# METRICS=" --metrics --pprof --pprof.addr=0.0.0.0"
+# For pulling metrics from Prometheus/Grafana server. tcp/6060 should be opened
+METRICS="--metrics --metrics.expensive --pprof --pprofaddr=0.0.0.0"
