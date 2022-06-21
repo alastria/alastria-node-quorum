@@ -307,12 +307,12 @@ The validator nodes must focus on operating the consensus protocol, integrating 
 ### geth args for regular/general Nodes
 
 ```console
-NODE_ARGS=' --rpc --rpcaddr 0.0.0.0 --rpcport 22000 --rpccorsdomain "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul'
+NODE_ARGS=' --rpc --rpcaddr 0.0.0.0 --rpcport 22000 --rpccorsdomain "*" --rpcvhosts "*" --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul'
 ```
 
 Also WebSockets connection is allowed:
 ```console
-NODE_ARGS=" --ws --wsaddr 0.0.0.0 --wsport 22001 --wsorigins source.com"
+NODE_ARGS=${NODE_ARGS}' --ws --wsaddr 0.0.0.0 --wsport 22001 --wsorigins "*" --wsapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul'
 ```
 
 > NOTE: use of [GraphQL](https://docs.goquorum.consensys.net/en/stable/HowTo/Use/graphql/) will be available soon.
@@ -362,7 +362,7 @@ $ geth attach alastria/data/geth.ipc
 ## geth args for validator nodes
 
 ```console
-NODE_ARGS=" --maxpeers 32 --mine --minerthreads $(grep -c "processor" /proc/cpuinfo)"
+NODE_ARGS=" --maxpeers 32 --mine --miner.gastarget 8000000 --miner.gaslimit 10000000 --minerthreads $(grep -c "processor" /proc/cpuinfo) --miner.extradata $NODE_NAME"
 ```
 
 # Other Resources
@@ -455,13 +455,13 @@ module.exports = {
 
 ## Changelog 
 
-### Monitoring 2022/02/14
+### Monitoring 2022/06/16
 
 Alastria T Network dashboard is at https://alastria-netstats2.planisys.net:8443/login , user alastria, pass alastria
 
 In order for your Node to be listed here please run geth with following options:
 
-* --metrics --pprof --pprof.addr=0.0.0.0
+* --metrics --metrics.expensive --pprof --pprofaddr=0.0.0.0
 
 and open port 6060 to IP address 185.180.8.152
 

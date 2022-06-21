@@ -12,7 +12,7 @@ services:
       - "21000:21000/tcp"
       - "21000:21000/udp"
       - "6060:6060/tcp"
-# Enable connection for dApps. Only for Regular/General
+# Enable connection for dApps. Only for Regular/General nodes
 #
 # To be used from RCP/JSON:
 #     - "22000:22000/tcp"
@@ -24,4 +24,3 @@ services:
       - NODE_TYPE=${NODE_TYPE}
       - NODE_NAME=${NODE_NAME}
       - NODE_BRANCH=${NODE_BRANCH}
-      - METRICS=${METRICS}
