@@ -4,10 +4,12 @@ version: "3.7"
 services:
   alastria-node:
     build: ./alastria-node
+    image: alastria-node-quorum:GoQuorum-21.10.2
     restart: unless-stopped
     container_name: ${NODE_NAME}
     volumes:
-      - "./alastria-node-data:/root/alastria"
+      - "./alastria-node-data/env:/root/alastria/env"
+      - "/path/to/geth/datadir:/root/alastria/data"
     ports:
       - "21000:21000/tcp"
       - "21000:21000/udp"

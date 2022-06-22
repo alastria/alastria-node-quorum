@@ -1,1 +1,0 @@
-# WIP · Procedure for `docker-compose` installations
