@@ -4,7 +4,7 @@ Follow the instructions to upgrade your node to GoQuorum version 21.10.2, if you
 
 In this instructions we will assume that the alastria-node-quorum repository was cloned into the user's home directory. If not, set the appropriate base path for the commands instead of `~/`.
 
-## 1. Stop running node
+## 1. Stop the running node
 Go to the docker-compose folder, and stop the running node:
 
 ```console
@@ -33,7 +33,7 @@ In the file `~/alastria-node-quorum-21.10.2/docker-compose/docker-compose.yml` y
 * In the `volumes` section write the correct path for the `/path/to/geth/datadir` placeholder. It should be `~/alastria-node-quorum/docker-compose/alastria-node-data/data` if no changes where made in this section in the original installation. Otherwise, write the correct path for the geth datadir of the node.
 * If you are configuring a regular node uncomment lines `- "22000:22000/tcp"` and `- "22001:22001/tcp"` in the `ports` section to be able to use the HTTP and WS connections.
 
-## 3. Start the node
+## 3. Restart the node
 Once everything is configured you can start the node with the upgraded GoQuorum version:
 ```console
 $ cd ~/alastria-node-quorum-21.10.2/docker-compose
