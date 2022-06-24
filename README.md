@@ -39,3 +39,9 @@ Once everything is configured you can start the node with the upgraded GoQuorum 
 $ cd ~/alastria-node-quorum-21.10.2/docker-compose
 $ docker-compose up -d
 ```
+
+# Troubleshooting
+## Failing to fetch DEB packages from repositories in image building process
+If you get errors like `E: Failed to fetch xxxxx 404  Not Found` when executing `docker-compose up -d` try the following:
+* First build the image discarding the cache with `docker-compose build --no-cache`
+* Start the container with `docker-compose up -d`
