@@ -99,7 +99,7 @@ Now it's time to start knowing more about `GoQuorum`:
 * https://docs.goquorum.consensys.net/en/stable/
 * https://github.com/ConsenSys/quorum 
 
-# Upgrading to higeher GoQuorum versions
+# Upgrading to higher GoQuorum versions
 
 If your node is fully synced with the chain, you can skip step 1. To see if your node is still syncing or not, you can use the following RPC call:
 ```sh
