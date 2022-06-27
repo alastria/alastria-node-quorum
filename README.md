@@ -99,7 +99,7 @@ Now it's time to start knowing more about `GoQuorum`:
 * https://docs.goquorum.consensys.net/en/stable/
 * https://github.com/ConsenSys/quorum 
 
-# Upgrading to GoQuorum version 21.10.0
+# Upgrading to higher GoQuorum versions
 
 If your node is fully synced with the chain, you can skip step 1. To see if your node is still syncing or not, you can use the following RPC call:
 ```sh
@@ -114,18 +114,10 @@ Once your node is fully synced, you can got to step 2.
 
 ### Step 2: Upgrading GoQuorum version
 
-To upgrade your node's GoQuorum version you must update the GoQuorum binaries with which you are running your node and restart it.
+To upgrade your node's GoQuorum version you must follow this instructions:
 
-To do so, edit the `Dockerfile` file to change `ENV VER="v21.1.0"` to `ENV VER="v21.10.0"`. Then stop the node with
-```console
-$ docker-compose down
-```
-and start the container forcing the docker image to be built again with
-```console
-$ docker-compose up --build -d
-```
+* [Upgrading node to GoQuorum version 21.10.2](https://github.com/alastria/alastria-node-quorum/tree/upgrade-branch/GoQuorum-21.10.2#upgrading-node-to-goquorum-version-21102)
 
-With this, your node should be running fine and on GoQuorum version 21.10.0.
 
 # Adding automatic checking for updates in node lists
 
