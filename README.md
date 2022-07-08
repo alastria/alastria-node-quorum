@@ -139,7 +139,7 @@ However, if your installation was done prior to June 2022, ensure you have the m
 | Hardware  | Minimum | Desired |
 |---        |---      |--- |
 | CPU's     | 2       |  4 |
-| Memory    | 4Gb     |  8Gb |
+| Memory    | 4Gb (8Gb for Validator nodes)     |  8Gb  (16Gb for Validator nodes)|
 | Hard Disk | 128 Gb  |  256 Gb |
 
 DLT database grows 1Gb/week: keep in mind for future updates. SSD disc it's also mandatory.
@@ -268,6 +268,14 @@ The following items should be backed up:
 
 >+ `/root/alastria/data/geth/nodekey`: This file contains the cryptographic information for joying the network. This file can be restored to start over a new installation without restarting the permissioning process.
 >+ ` /root/alastria/data/keystore/`: This directory contains local accounts created from the node.
+
+### Backup/Restore LevelDB
+
+LevelDB is the storaga format used by `geth` (and `GoQuorum`):
+
+```console:
+$ ./geth export /mnt/dump.gz --datadir /root/alastria/geth_root_directory --syncmode full
+```
 
 ### Resetting DLT
 
