@@ -2,7 +2,7 @@
 
 version: "3.7"
 services:
-  alastria-node:
+  alastria-node-quorum:
     build: ./alastria-node
     restart: unless-stopped
     container_name: ${NODE_NAME}
