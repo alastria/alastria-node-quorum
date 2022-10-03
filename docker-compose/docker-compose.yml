@@ -2,7 +2,7 @@
 
 version: "3.7"
 services:
-  alastria-node:
+  alastria-node-quorum:
     build: ./alastria-node
     image: alastria-node-quorum:GoQuorum-21.10.2
     restart: unless-stopped
