@@ -9,7 +9,7 @@ ISTANBUL_REQUESTTIMEOUT="10000"
 # Blockchain sync mode
 SYNCMODE="fast"
 # Cache size in MB
-CACHE="4196"
+CACHE="0"
 # Blockchain garbage collection mode
 GCMODE="full"
 # General logging verbosity: 0=silent, 1=error, 2=warn, 3=info, 4=debug, 5=detail
