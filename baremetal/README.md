@@ -9,7 +9,7 @@
 ```
 export VER="v21.1.0"
 wget -O geth_${VER}_linux_amd64.tar.gz https://artifacts.consensys.net/public/go-quorum/raw/versions/${VER}/geth_${VER}_linux_amd64.tar.gz
-tar zxvf geth_${VER}_linux_amd64.tar.gz -C /data/opt/alastria/geth
+tar zxvf geth_${VER}_linux_amd64.tar.gz -C /data/opt/alastria
 ```
 
 - Launch using (where /data/opt/alastria is your USERPATH)
