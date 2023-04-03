@@ -13,7 +13,7 @@ if [ "$1" = 'start' ]; then
     
     echo "Starting the node..."
 
-	# Variables ruta
+	# Path settings
 	USERPATH="/data/opt/alastria"
 	GETHBINARY=${USERPATH}"/geth"
 	GETHPATH=${USERPATH}"/data/geth"
@@ -22,10 +22,9 @@ if [ "$1" = 'start' ]; then
 
     # Create the data/geth directory if it does not exist yet
 	
-	
     # mkdir -p /root/alastria/data/geth
 	mkdir -p ${GETHPATH}
-        mkdir -p ${ENVPATH}
+    mkdir -p ${ENVPATH}
 
     # Make sure we are in /root
     # cd /root
@@ -105,7 +104,7 @@ if [ "$1" = 'start' ]; then
     source ${USERPATH}/geth.common.sh
     source ${USERPATH}/geth.node.${NODE_TYPE}.sh
 
-    # Start the geth node
+    # Do not use private transaction manager
     export PRIVATE_CONFIG="ignore"
 
     # Start geth
