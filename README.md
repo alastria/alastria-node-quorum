@@ -141,7 +141,7 @@ However, if your installation was done prior to June 2022, ensure you have the m
 |---        |---      |--- |
 | CPU's     | 2       |  4 |
 | Memory    | 4Gb (8Gb for Validator nodes)     |  8Gb  (16Gb for Validator nodes)|
-| Hard Disk | 128 Gb  |  256 Gb |
+| Hard Disk | 300 Gb  |  512 Gb |
 
 DLT database grows 1Gb/week: keep in mind for future updates. SSD disc it's also mandatory.
 
