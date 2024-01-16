@@ -150,17 +150,19 @@ DLT database grows 1Gb/week: keep in mind for future updates. SSD disc it's also
 The following ports must be open, at least, to the nodes defined in the `/root/alastria/data/static-nodes.json` and `/root/alastria/data/permissioned-nodes.json` files. We recommend that these ports be universally open: the `whisper protocol` defined in `GoQuorum` is robust enough to be published without the need for control through the firewall.
 
 | Port  | Type    | Definition |
-|---    |---      |--- |
+| :---  | :---    | :---       |
 | 21000 | TCP/UDP | Geth process application port (inbound and outbound for ethereum traffic) |
 | 53    | TCP/UDP | Access to external Internet based resolvers |
-| 6060  | TCP     | Inbound for **Prometheus** scraping from IP address 185.180.8.152 |
+| 6060  | TCP     | ~~Inbound for Prometheus scraping from IP address 185.180.8.152~~ (*) |
+
+(*) At the moment, there is no central network monitoring server. While a new system is being provided, we propose adding metric endpoints to your own management infrastructure. 
 
 `tcp/21000` and `udp/21000`port are mandatory, as is the common standard for the Alastria-T Network.
 
 Other ports are optional, and can be used from applications like `Metamask`, `Truffle` or `Remix`
 
 | Port  | Type | Definition |
-|---    |---   |--- |
+| :---  | :--- | :---       |
 | 22000 | TCP  | *Optional* port for JSON-RPC connections |
 | 22001 | TCP  | *Optional* port for WebSockets connections |
 
@@ -181,7 +183,11 @@ These variables should be use for any script in:
 * `NODE_NAME=REG_ExampleOrg_T_2_8_00`: Name for your node.
 * `NODE_BRANCH=main`: Used for future improvements.
 
+### Monitoring
 
+The default Alastria configuration exposes GoQuorum metrics on the `tcp/6060` port and provides the http://node_ip:6060/debug/metrics/prometheus endpoint for integration into your local monitoring infrastructure. For more information on this topic, refer to the "Metrics collection" section in https://blog.ethereum.org/2019/07/10/geth-v1-9-0 and https://grafana.com/grafana/dashboards/14360-goquorum-overview/. Please, **keep this access restricted to authorized hosts, as described in the documentation**.
+
+**NOTE**: Keep this access restricted to authorized hosts, as 
 
 # Regular Node
 
@@ -442,20 +448,6 @@ module.exports = {
 }
 
 ```
-
-
-## Changelog 
-
-### Monitoring 2022/06/16
-
-Alastria T Network dashboard is at https://alastria-netstats2.planisys.net:8443/login , user alastria, pass alastria
-
-In order for your Node to be listed here please run geth with following options:
-
-* --metrics --metrics.expensive --pprof --pprofaddr=0.0.0.0
-
-and open port 6060 to IP address 185.180.8.152
-
 
 ## Operation documents of Alastria nodes 
 Other guides related with operation of Alastria Node are available in following documents:
