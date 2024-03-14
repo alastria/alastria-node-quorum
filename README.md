@@ -480,8 +480,6 @@ $ tar zxvf geth.20240302.179598083.tar.gz -C .
 $ cp /root/nodekey.root geth/nodekey 
 $ docker start <contaner_name>
 
-=======
->>>>>>> main
 ## Operation documents of Alastria nodes 
 Other guides related with operation of Alastria Node are available in following documents:
 
