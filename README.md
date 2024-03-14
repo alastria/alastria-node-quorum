@@ -150,17 +150,19 @@ DLT database grows 1Gb/week: keep in mind for future updates. SSD disc it's also
 The following ports must be open, at least, to the nodes defined in the `/root/alastria/data/static-nodes.json` and `/root/alastria/data/permissioned-nodes.json` files. We recommend that these ports be universally open: the `whisper protocol` defined in `GoQuorum` is robust enough to be published without the need for control through the firewall.
 
 | Port  | Type    | Definition |
-|---    |---      |--- |
+| :---  | :---    | :---       |
 | 21000 | TCP/UDP | Geth process application port (inbound and outbound for ethereum traffic) |
 | 53    | TCP/UDP | Access to external Internet based resolvers |
-| 6060  | TCP     | Inbound for **Prometheus** scraping from IP address 185.180.8.152 |
+| 6060  | TCP     | ~~Inbound for Prometheus scraping from IP address 185.180.8.152~~ (*) |
+
+(*) At the moment, there is no central network monitoring server. While a new system is being provided, we propose adding metric endpoints to your own management infrastructure. 
 
 `tcp/21000` and `udp/21000`port are mandatory, as is the common standard for the Alastria-T Network.
 
 Other ports are optional, and can be used from applications like `Metamask`, `Truffle` or `Remix`
 
 | Port  | Type | Definition |
-|---    |---   |--- |
+| :---  | :--- | :---       |
 | 22000 | TCP  | *Optional* port for JSON-RPC connections |
 | 22001 | TCP  | *Optional* port for WebSockets connections |
 
@@ -181,7 +183,11 @@ These variables should be use for any script in:
 * `NODE_NAME=REG_ExampleOrg_T_2_8_00`: Name for your node.
 * `NODE_BRANCH=main`: Used for future improvements.
 
+### Monitoring
 
+The default Alastria configuration exposes GoQuorum metrics on the `tcp/6060` port and provides the http://node_ip:6060/debug/metrics/prometheus endpoint for integration into your local monitoring infrastructure. For more information on this topic, refer to the "Metrics collection" section in https://blog.ethereum.org/2019/07/10/geth-v1-9-0 and https://grafana.com/grafana/dashboards/14360-goquorum-overview/. Please, **keep this access restricted to authorized hosts, as described in the documentation**.
+
+**NOTE**: Keep this access restricted to authorized hosts, as 
 
 # Regular Node
 
@@ -443,19 +449,36 @@ module.exports = {
 
 ```
 
+##
+* __Q:__ How to recover a DLT copy from a backup?
+* __A:__ A full copy of the Alastria DLT currently occupies approximately 300GB (as of the first quarter of 2024). In the event of a node issue, recovering a hot copy can take around 4 days. However, with a backup available, the recovery time can be significantly reduced. If you trust another partner or a backup provided by Alastria dated 20240302 at block 179598083, you can add it to your node.
 
-## Changelog 
+```
+# Stop the contanier
+# Be sure about the directory you are working on
+# Make a copy of the private key (the nodekey file)
+# Delete the old database
+# Decompress de the new one
+# Restore the private key
+# Start the container
 
-### Monitoring 2022/06/16
-
-Alastria T Network dashboard is at https://alastria-netstats2.planisys.net:8443/login , user alastria, pass alastria
-
-In order for your Node to be listed here please run geth with following options:
-
-* --metrics --metrics.expensive --pprof --pprofaddr=0.0.0.0
-
-and open port 6060 to IP address 185.180.8.152
-
+# Example
+$ docker stop <contaner_name>
+$ pwd
+/home/ubuntu/alastria-t-boot/data
+$ ls -ltr
+total 84
+drwx------ 2 root root  4096 Apr 19  2023 keystore
+-rw-r--r-- 1 root root    12 Apr 25  2023 INITIALIZED
+-rwxr-xr-x 1 root root 36040 Mar 14 17:17 static-nodes.json
+-rwxr-xr-x 1 root root 36040 Mar 14 17:17 permissioned-nodes.json
+drwxr-xr-x 5 root root  4096 Mar 14 17:17 geth
+srw------- 1 root root     0 Mar 14 17:17 geth.ipc
+$ cp geth/nodekey /root/nodekey.root^C
+$ rm -rf geth_DONOTCOPYANDPASTE
+$ tar zxvf geth.20240302.179598083.tar.gz -C .
+$ cp /root/nodekey.root geth/nodekey 
+$ docker start <contaner_name>
 
 ## Operation documents of Alastria nodes 
 Other guides related with operation of Alastria Node are available in following documents:
