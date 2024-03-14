@@ -474,11 +474,12 @@ drwx------ 2 root root  4096 Apr 19  2023 keystore
 -rwxr-xr-x 1 root root 36040 Mar 14 17:17 permissioned-nodes.json
 drwxr-xr-x 5 root root  4096 Mar 14 17:17 geth
 srw------- 1 root root     0 Mar 14 17:17 geth.ipc
-$ cp geth/nodekey /root/nodekey.root^C
+$ cp geth/nodekey /root/nodekey.root
 $ rm -rf geth_DONOTCOPYANDPASTE
 $ tar zxvf geth.20240302.179598083.tar.gz -C .
 $ cp /root/nodekey.root geth/nodekey 
 $ docker start <contaner_name>
+```
 
 ## Operation documents of Alastria nodes 
 Other guides related with operation of Alastria Node are available in following documents:
