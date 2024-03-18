@@ -449,6 +449,38 @@ module.exports = {
 
 ```
 
+##
+* __Q:__ How to recover a DLT copy from a backup?
+* __A:__ A full copy of the Alastria DLT currently occupies approximately 300GB (as of the first quarter of 2024). In the event of a node issue, recovering a hot copy can take around 4 days. However, with a backup available, the recovery time can be significantly reduced. If you trust another partner or a backup provided by Alastria dated 20240302 at block 179598083, you can add it to your node.
+
+```
+# Stop the contanier
+# Be sure about the directory you are working on
+# Make a copy of the private key (the nodekey file)
+# Delete the old database
+# Decompress de the new one
+# Restore the private key
+# Start the container
+
+# Example
+$ docker stop <contaner_name>
+$ pwd
+/home/ubuntu/alastria-t-boot/data
+$ ls -ltr
+total 84
+drwx------ 2 root root  4096 Apr 19  2023 keystore
+-rw-r--r-- 1 root root    12 Apr 25  2023 INITIALIZED
+-rwxr-xr-x 1 root root 36040 Mar 14 17:17 static-nodes.json
+-rwxr-xr-x 1 root root 36040 Mar 14 17:17 permissioned-nodes.json
+drwxr-xr-x 5 root root  4096 Mar 14 17:17 geth
+srw------- 1 root root     0 Mar 14 17:17 geth.ipc
+$ cp geth/nodekey /root/nodekey.root
+$ rm -rf geth_DONOTCOPYANDPASTE
+$ tar zxvf geth.20240302.179598083.tar.gz -C .
+$ cp /root/nodekey.root geth/nodekey 
+$ docker start <contaner_name>
+```
+
 ## Operation documents of Alastria nodes 
 Other guides related with operation of Alastria Node are available in following documents:
 
