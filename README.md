@@ -153,9 +153,7 @@ The following ports must be open, at least, to the nodes defined in the `/root/a
 | :---  | :---    | :---       |
 | 21000 | TCP/UDP | Geth process application port (inbound and outbound for ethereum traffic) |
 | 53    | TCP/UDP | Access to external Internet based resolvers |
-| 6060  | TCP     | ~~Inbound for Prometheus scraping from IP address 185.180.8.152~~ (*) |
-
-(*) At the moment, there is no central network monitoring server. While a new system is being provided, we propose adding metric endpoints to your own management infrastructure. 
+| 6060  | TCP     | Scraping Prometheus metrics from Alastria from IP address 18.201.52.140 |
 
 `tcp/21000` and `udp/21000`port are mandatory, as is the common standard for the Alastria-T Network.
 
@@ -370,10 +368,7 @@ NODE_ARGS=" --maxpeers 32 --mine --miner.gastarget 8000000 --miner.gaslimit 1000
 + [FAQ EN](https://github.com/alastria/alastria-node/wiki/FAQ_EN)
 
 - [Red T CBX Network Explorer](https://blkexplorer1.telsius.alastria.io) - Hosted by CouncilBox
-- Red T Network Monitor (login alastria/alastria) - Hosted by Planisys
-  - [Regular nodes](https://alastria-netstats.planisys.net:8443/d/kN1u5Z37z/alastria-redt-regulars?orgId=1&refresh=5s) 
-  - [Boot nodes](https://alastria-netstats.planisys.net:8443/d/mvn4pW37z/alastria-redt-bootnodes?orgId=1&refresh=5s)
-  - [Validator nodes](https://alastria-netstats.planisys.net:8443/d/N2DHtWq7k/alastria-redt-validators?orgId=1&refresh=5s)
+- [Red T Network Monitor](https://net-monitor.alastria.io/) (login alastria/alastria) - Hosted by [Alastria](https://alastria.io/) :raised_hands:
 
 # Contributing
 
