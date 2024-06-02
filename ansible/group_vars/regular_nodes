@@ -2,16 +2,28 @@
 
 # You can change all these variables to your needs
 
-deploy_user: ubuntu  # SSH user connecting to the server
-project_path: /home/{{ deploy_user }}/alastria-node
-project_repo: https://github.com/alastria-node/alastria-node
-project_repo_version: testnet2
+# Variables for deploy_regular_node_docker and deploy_regular_node
 
+remote_user: <SETME> # SSH user connecting to the server
+deploy_user: ubuntu  # User who run the service
 company_name: <SETME>
 cpu_number: <SETME>
 ram_number: <SETME>
 sequential: <SETME>
+project_repo_branch: testnet2
+
+# Variables for only deploy_regular_node_docker
+
+project_path: /home/{{ deploy_user }}/alastria-node
+project_repo: https://github.com/alastria/alastria-node
+
 enable_constellation: <SETME>
 enable_monitor: <SETME>
 no_launch_confirm: <SETME>
 extra_docker_arguments: <SETME>
+
+# Variables for only deploy_regular_node
+
+golang_version: go1.9.5.linux-amd64.tar.gz
+quorum_version: v2.2.3
+node_type: general

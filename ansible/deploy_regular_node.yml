@@ -1,40 +1,182 @@
 ---
 
 - hosts: all
-  remote_user: ubuntu
+  remote_user: "{{ remote_user|quote }}"
+  environment:
+    PATH: /usr/local/go/bin:{{ ansible_env.PATH|quote }}
 
   tasks:
-    - name: Install docker
-      become: yes
-      apt:
-        name: docker.io
-        state: present
-
-    - name: 'add users to docker group'
+    - name: Add the deploy user
       become: yes
       user:
-        name: '{{ deploy_user }}'
-        groups: 'docker'
-        append: 'yes'
+        name: "{{ deploy_user|quote }}"
+        state: present
+    
+    - name: Install dependencies
+      become: yes
+      package:
+        name:
+          - sudo
+          - git
+          - curl
+          - dnsutils
+          - net-tools
+          - logrotate
+          - software-properties-common
+          - unzip
+          - wget
+          - make
+          - gcc
+          - libsodium-dev
+          - build-essential
+          - libdb-dev
+          - zlib1g-dev
+          - libtinfo-dev
+          - sysvbanner
+          - psmisc
+          - libleveldb-dev
+          - libdb5.3-dev
+          - screen
+          - logrotate
+        state: latest
 
-    - name: Clone and update the repo
-      git:
-        repo: '{{ project_repo }}'
-        dest: '{{ project_path }}'
-        version: '{{ project_repo_version }}'
-        force: yes
-        accept_hostkey: yes
+    - name: Install Golang compiler
+      become: yes
+      unarchive:
+        src: https://storage.googleapis.com/golang/{{ golang_version|quote }}
+        dest: /usr/local/
+        remote_src: yes
 
-    - name: Execute init.sh to create the regular node
-      shell: ./init.sh
-      args:
-        chdir: '{{ project_path }}/docker/general'
-      environment:
-        COMPANY_NAME: '{{ company_name }}'
-        CPU: '{{ cpu_number }}'
-        RAM: '{{ ram_number }}'
-        SEQ: '{{ sequential }}'
-        ENABLE_CONSTELLATION: '{{ enable_constellation }}'
-        MONITOR_ENABLED: '{{ enable_monitor }}'
-        NO_LAUNCH_CONFIRM: '{{ no_launch_confirm }}'
-        EXTRA_DOCKER_ARGUMENTS: '{{ extra_docker_arguments }}'
+    - name: Install Quorum
+      become: yes
+      block:
+        - name: Clone Quorum repository
+          git:
+            repo: https://github.com/ConsenSys/quorum.git
+            dest: /tmp/quorum
+            version: "{{ quorum_version|quote }}"
+        - name: Compile geth
+          shell: make -C /tmp/quorum all
+        - name: Copy geth to right location
+          copy:
+            remote_src: yes
+            src: /tmp/quorum/build/bin/geth
+            dest: /usr/local/bin/geth
+            mode: a+x
+        - name: Copy bootnode to right location
+          copy:
+            remote_src: yes
+            src: /tmp/quorum/build/bin/bootnode
+            dest: /usr/local/bin/bootnode
+            mode: a+x
+
+    - name: Check that the INITIALIZED file exists
+      stat:
+        path: ~/data/INITIALIZED
+      register: INITIALIZED
+
+    - name: Initialize the node if necessary
+      become: yes
+      become_user: "{{ deploy_user|quote }}"
+      when: not INITIALIZED.stat.exists
+      block:
+        - name: Create the data directory if it does not exist yet
+          file:
+            path: ~/data
+            state: directory
+
+        - name: Create the nodekey
+          shell: /usr/local/bin/bootnode -genkey ~/data/nodekey
+
+        - name: Get the enode key
+          shell: /usr/local/bin/bootnode -nodekey ~/data/nodekey -writeaddress > ~/data/ENODE_ADDRESS
+
+        - name: Download genesis.json
+          get_url:
+            url: "https://raw.githubusercontent.com/alastria/alastria-node/{{ project_repo_branch|quote }}/data/genesis.json"
+            dest: ~/genesis.json
+
+        - name: Execute geth init command
+          shell: |
+            pkill geth
+            /usr/local/bin/geth --datadir ~/data init ~/genesis.json
+        
+        - name: Mark the node as initialized
+          shell: /bin/echo "INITIALIZED" > ~/data/INITIALIZED
+
+    - name: Get nodes and start geth node
+      become: yes
+      become_user: "{{ deploy_user|quote }}"
+      block:
+        - name: Create temporary file
+          tempfile:
+            path: /tmp
+          register: TMPFILE
+        - name: Create env directory
+          file:
+            path: ~/env
+            state: directory
+            mode: 0755
+        - name: Get current nodes and parse databases
+          shell: |
+            for i in boot-nodes.json validator-nodes.json regular-nodes.json ; do
+              wget -q -O ~/env/${i} https://raw.githubusercontent.com/alastria/alastria-node/{{ project_repo_branch|quote }}/data/${i}
+            done
+
+            case {{ node_type|quote }} in
+              "bootnode")
+                cat ~/env/boot-nodes.json ~/env/validator-nodes.json ~/env/regular-nodes.json >> {{ TMPFILE.path|quote }}
+              ;;
+              "validator")
+                cat ~/env/boot-nodes.json ~/env/validator-nodes.json >> {{ TMPFILE.path|quote }}
+              ;;
+              "general")
+                cat ~/env/boot-nodes.json >> {{ TMPFILE.path|quote }}
+              ;;
+              *)
+                echo "ERROR: nodetype not recognized"
+                exit 1
+              ;;
+            esac
+
+            sed -e '1s/^/[\n/' -i {{ TMPFILE.path|quote }}
+            sed -e '$s/,$/\n]/' -i {{ TMPFILE.path|quote }}
+
+            cat {{ TMPFILE.path|quote }} > ~/data/static-nodes.json
+            cat {{ TMPFILE.path|quote }} > ~/data/permissioned-nodes.json
+          args:
+            executable: /bin/bash
+        - name: Get initialization scripts
+          shell: |
+            for i in geth.common.sh geth.node.{{ node_type|quote }}.sh ; do
+              wget -q -O ~/env/${i} https://raw.githubusercontent.com/alejandroalffer/alastria-node-t/master/alastria-node-data/env/${i}
+            done
+          args:
+            executable: /bin/bash
+        - name: Prepare geth and launch node
+          shell: |
+            source ~/env/geth.common.sh
+            source ~/env/geth.node.{{ node_type|quote }}.sh
+            
+            screen -d -m -L -Logfile ~/geth.log /usr/local/bin/geth --datadir ~/data ${GLOBAL_ARGS} ${NETSTATS_METRICS} ${INFLUX_METRICS} ${NODE_ARGS} ${LOCAL_ARGS}
+          args:
+            executable: /bin/bash
+          environment:
+            PRIVATE_CONFIG: ignore
+            NODE_NAME: "REG_{{ company_name|quote }}_T_{{ cpu_number|quote }}_{{ ram_number|quote }}_{{ sequential|quote }}"
+    - name: Add geth logs to logrotate
+      become: yes
+      blockinfile:
+        path: /etc/logrotate.d/geth
+        block: |
+          /home/{{ deploy_user }}/geth.log {
+            weekly
+            rotate 3
+            size 10M
+            compress
+            missingok
+            notifempty
+            delaycompress
+            create 0640 {{ deploy_user }} {{ deploy_user }}
+          }
+        create: true
