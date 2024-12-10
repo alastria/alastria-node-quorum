@@ -276,7 +276,7 @@ The following items should be backed up:
 
 ### Backup/Restore LevelDB
 
-LevelDB is the storaga format used by `geth` (and `GoQuorum`):
+LevelDB is the storage format used by `geth` (and `GoQuorum`):
 
 ```console:
 $ ./geth export /mnt/dump.gz --datadir /root/alastria/geth_root_directory --syncmode full
@@ -403,9 +403,9 @@ The following lines are changes from [testnet2](https://github.com/alastria/alas
 
 # FAQs
 
-##
-* __Q:__ How conncent Truffle with AlastriaB network?
-* __A:__ Lastest versions of `GoQuorum` use HDWallet for accesing the node. This is an example:
+## How conncent Truffle with AlastriaB network? ##
+
+Lastest versions of `GoQuorum` use HDWallet for accesing the node. This is an example:
 
 ```
 const fs = require("fs");
@@ -444,21 +444,16 @@ module.exports = {
 
 ```
 
-##
-* __Q:__ How to recover a DLT copy from a backup?
-* __A:__ A full copy of the Alastria DLT currently occupies approximately 300GB (as of the first quarter of 2024). In the event of a node issue, recovering a hot copy can take around 4 days. However, with a backup available, the recovery time can be significantly reduced. If you trust another partner or a backup provided by Alastria dated 20240302 at block 179598083, you can add it to your node.
+## How to recover a DLT copy from a backup? ##
+
+A full copy of the Alastria DLT currently requires approximately 500GB (as of the last quarter of 2024). In the event of a node issue, recovering a hot copy can take around 4 days. However, with a backup available, the recovery time can be significantly reduced. If you trust another partner or a backup provided by Alastria (dated 20241014 at block 127109486), you can use it during the initial synchronization of your node.
+
+To request a backup provided by Alastria, you can contact us at the email address support@alastria.io.
 
 ```
-# Stop the contanier
-# Be sure about the directory you are working on
-# Make a copy of the private key (the nodekey file)
-# Delete the old database
-# Decompress de the new one
-# Restore the private key
-# Start the container
-
-# Example
+# 1. Stop the container: Gracefully stop the running container to prevent data corruption.
 $ docker stop <contaner_name>
+# 2. Ensure you are in the correct directory: Double-check the directory to avoid modifying the wrong files.
 $ pwd
 /home/ubuntu/alastria-t-boot/data
 $ ls -ltr
@@ -469,10 +464,15 @@ drwx------ 2 root root  4096 Apr 19  2023 keystore
 -rwxr-xr-x 1 root root 36040 Mar 14 17:17 permissioned-nodes.json
 drwxr-xr-x 5 root root  4096 Mar 14 17:17 geth
 srw------- 1 root root     0 Mar 14 17:17 geth.ipc
+# 3. Make a backup of the private key (the nodekey file): Safeguard the node’s private key for later restoration.
 $ cp geth/nodekey /root/nodekey.root
+# 4. Delete the old database: Remove outdated data to prepare for the new database.
 $ rm -rf geth_DONOTCOPYANDPASTE
+# 5. Decompress the new database: Extract the provided backup for use.
 $ tar zxvf geth.20240302.179598083.tar.gz -C .
+# 6. Restore the private key: Place the saved private key back into the appropriate location.
 $ cp /root/nodekey.root geth/nodekey 
+# 7. Start the container: Relaunch the container to resume normal operations.
 $ docker start <contaner_name>
 ```
 
