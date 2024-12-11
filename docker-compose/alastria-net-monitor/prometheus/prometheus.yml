@@ -1,0 +1,23 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'alastria-servers'
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets: ['176.34.235.103:9100']
+      - targets: ['54.228.169.138:9100']
+
+  # It is important to replace the proposed name in 'Targets' with the container's name.
+  - job_name: 'alastria-t'
+    scrape_timeout: 10s
+    metrics_path: /debug/metrics/prometheus
+    scheme: http
+    static_configs:
+      - targets: ['_use_your_container_name_01:6060']
