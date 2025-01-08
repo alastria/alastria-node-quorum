@@ -1,0 +1,36 @@
+# Compose file for a Alastria-T monitor infraestructure
+version: "3.7"
+
+services:
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+    # Consider opening this port only if you are aware of the associated risks.
+    #  - 2001:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+
+  grafana-oss:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - 2000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=use_your_own
+      - GF_SECURITY_ADMIN_PASSWORD=use_your_own
+    volumes:
+      - ./grafana/var/lib/grafana:/var/lib/grafana
+      - ./grafana/etc/grafana:/etc/grafana
+    user: '0'
+    logging:
+      options:
+        max-size: 1g
+    restart: unless-stopped
+    depends_on:
+    # Docker Compose only guarantees the startup order of containers, but not their full availability.
+    # However, this is not an issue in this case.
+      - prometheus
